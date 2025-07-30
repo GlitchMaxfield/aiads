@@ -27,7 +27,7 @@ const videoData = [
     id: 4,
     title: "Brand Story",
     thumbnail: "https://images.pexels.com/videos/3209828/free-video-3209828.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://youtube.com/shorts/j6mb2DlfWlg?feature=share",
     orientation: "vertical"
   },
   {
