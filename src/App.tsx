@@ -78,7 +78,7 @@ const Navigation = () => {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Film className="w-8 h-8 text-black" />
-              <div className="absolute inset-0 bg-black/20 rounded-full blur-sm" />
+              <div className="#" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
               movico.studio
