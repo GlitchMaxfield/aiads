@@ -206,10 +206,12 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
 
 const VideoCarousel = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [manualScrollTimeout, setManualScrollTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Create duplicated data for infinite scroll
-  const duplicatedVideoData = [...videoData, ...videoData, ...videoData];
+  // Create enough copies for seamless infinite scroll
+  const duplicatedVideoData = [...videoData, ...videoData, ...videoData, ...videoData];
 
   // Auto-scroll functionality
   React.useEffect(() => {
@@ -217,16 +219,16 @@ const VideoCarousel = () => {
     if (!scrollContainer) return;
 
     let animationId: number;
-    const scrollSpeed = 0.5; // pixels per frame
+    const scrollSpeed = 0.8; // pixels per frame
 
     const autoScroll = () => {
-      if (!isScrolling && scrollContainer) {
+      if (!isPaused && !isHovered && scrollContainer) {
         scrollContainer.scrollLeft += scrollSpeed;
         
-        // Reset scroll position when we've scrolled through one full set
-        const maxScroll = scrollContainer.scrollWidth / 3; // Since we have 3 copies
-        if (scrollContainer.scrollLeft >= maxScroll) {
-          scrollContainer.scrollLeft = maxScroll / 3; // Reset to middle section
+        // Calculate when to reset for seamless loop
+        const singleSetWidth = (scrollContainer.scrollWidth / 4); // Since we have 4 copies
+        if (scrollContainer.scrollLeft >= singleSetWidth * 2) {
+          scrollContainer.scrollLeft = singleSetWidth; // Reset to second set
         }
       }
       animationId = requestAnimationFrame(autoScroll);
@@ -239,37 +241,42 @@ const VideoCarousel = () => {
         cancelAnimationFrame(animationId);
       }
     };
-  }, [isScrolling]);
+  }, [isPaused, isHovered]);
 
-  // Handle manual scrolling
-  const handleScroll = () => {
-    setIsScrolling(true);
-    
-    // Resume auto-scroll after user stops scrolling
-    setTimeout(() => {
-      setIsScrolling(false);
-    }, 2000);
+  // Handle mouse enter/leave for the entire carousel
+  const handleCarouselMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleCarouselMouseLeave = () => {
+    setIsHovered(false);
   };
 
   const scroll = (direction: 'left' | 'right') => {
-    setIsScrolling(true);
+    // Stop auto-scroll permanently when buttons are used
+    setIsPaused(true);
+    
+    // Clear any existing timeout
+    if (manualScrollTimeout) {
+      clearTimeout(manualScrollTimeout);
+    }
+    
     if (scrollRef.current) {
-      const scrollAmount = 300;
+      const scrollAmount = 320; // Adjust based on card width + gap
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
       scrollRef.current.scrollTo({
         left: newScrollLeft,
         behavior: 'smooth'
       });
-      
-      // Resume auto-scroll after manual scroll
-      setTimeout(() => {
-        setIsScrolling(false);
-      }, 2000);
     }
   };
 
   return (
-    <div className="relative w-full">
+    <div 
+      className="relative w-full"
+      onMouseEnter={handleCarouselMouseEnter}
+      onMouseLeave={handleCarouselMouseLeave}
+    >
       {/* Scroll Buttons */}
       <button
         onClick={() => scroll('left')}
@@ -288,7 +295,6 @@ const VideoCarousel = () => {
       {/* Video Container */}
       <div
         ref={scrollRef}
-        onScroll={handleScroll}
         className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
@@ -297,7 +303,7 @@ const VideoCarousel = () => {
         }}
       >
         {duplicatedVideoData.map((video, index) => (
-          <VideoCard key={video.id} video={video} index={index} />
+          <VideoCard key={`${video.id}-${index}`} video={video} index={index} />
         ))}
       </div>
       
