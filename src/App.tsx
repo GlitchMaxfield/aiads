@@ -426,8 +426,8 @@ function App() {
             </div>
             <div className="w-px h-8 bg-gray-300" />
             <div className="text-center lg:text-left">
-              <div className="text-2xl font-bold text-black">5k+</div>
-              <div>Happy Creators</div>
+              <div className="text-2xl font-bold text-black">10+</div>
+              <div>Happy Clients</div>
             </div>
             <div className="w-px h-8 bg-gray-300" />
             <div className="text-center lg:text-left">
