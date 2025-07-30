@@ -25,7 +25,7 @@ const videoData = [
   },
   {
     id: 4,
-    title: "Brand Story",
+    title: "Lamborghini",
     thumbnail: "https://images.pexels.com/videos/3209828/free-video-3209828.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     video: "https://youtube.com/shorts/j6mb2DlfWlg?feature=share",
     orientation: "vertical"
