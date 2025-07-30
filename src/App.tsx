@@ -27,7 +27,7 @@ const videoData = [
     id: 4,
     title: "Lamborghini",
     thumbnail: "https://images.pexels.com/videos/3209828/free-video-3209828.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://www.youtube.com/embed/kJQP7kiw5Fk",
+    video: "https://www.youtube.com/embed/YyNz4--6fro",
     orientation: "vertical"
   },
   {
