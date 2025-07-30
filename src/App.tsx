@@ -424,7 +424,7 @@ function App() {
               <div className="text-2xl font-bold text-black">50+</div>
               <div>Advertisements Created</div>
             </div>
-            <div className="w-px h-10 bg-gray-300" />
+            <div className="w-px h-8 bg-gray-200" />
             <div className="text-center lg:text-left">
               <div className="text-2xl font-bold text-black">10+</div>
               <div>Happy Clients</div>
