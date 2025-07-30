@@ -81,7 +81,7 @@ const Navigation = () => {
               <div className="absolute inset-0 bg-black/10 rounded-full blur-sm" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
-              movico.studio
+              movico.studios
             </span>
           </div>
 
