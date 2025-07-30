@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Play, ChevronLeft, ChevronRight, Film, X } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, Film } from 'lucide-react';
 
 const videoData = [
   {
@@ -59,47 +59,6 @@ const videoData = [
     orientation: "vertical"
   }
 ];
-
-const VideoModal = ({ video, isOpen, onClose }: { 
-  video: typeof videoData[0] | null, 
-  isOpen: boolean, 
-  onClose: () => void 
-}) => {
-  if (!isOpen || !video) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="relative max-w-4xl w-full max-h-[90vh] bg-black rounded-2xl overflow-hidden">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10 bg-white/20 backdrop-blur-sm rounded-full p-2 text-white hover:bg-white/30 transition-all duration-300"
-        >
-          <X className="w-6 h-6" />
-        </button>
-
-        {/* Video Player */}
-        <div className={`relative ${video.orientation === 'vertical' ? 'aspect-[9/16] max-w-md mx-auto' : 'aspect-video'}`}>
-          <video
-            className="w-full h-full object-cover"
-            controls
-            autoPlay
-            playsInline
-          >
-            <source src={video.video} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-
-        {/* Video Info */}
-        <div className="p-6 bg-gradient-to-t from-black to-transparent">
-          <h3 className="text-white text-xl font-semibold mb-2">{video.title}</h3>
-          <p className="text-gray-300 text-sm">AI-Generated Content by Movico Studio</p>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState('home');
@@ -165,16 +124,7 @@ const Navigation = () => {
 const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [onPlayClick, setOnPlayClick] = useState<(() => void) | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  React.useEffect(() => {
-    if (onPlayClick) {
-      const handleClick = onPlayClick;
-      setOnPlayClick(null);
-      handleClick();
-    }
-  }, [onPlayClick]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -192,14 +142,9 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
     }
   };
 
-  const handlePlayClick = (e: React.MouseEvent, openModal: () => void) => {
-    e.stopPropagation();
-    openModal();
-  };
-
   const isVertical = video.orientation === 'vertical';
 
-  return ({ openVideoModal }: { openVideoModal: (video: typeof videoData[0]) => void }) => (
+  return (
     <div className="relative flex-shrink-0 h-64">
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
@@ -238,12 +183,9 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
             isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
           }`}
         >
-          <button 
-            onClick={(e) => handlePlayClick(e, () => openVideoModal(video))}
-            className="bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-all duration-300 hover:scale-110"
-          >
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
             <Play className="w-8 h-8 text-white fill-white" />
-          </button>
+          </div>
         </div>
 
         {/* Title */}
@@ -267,18 +209,6 @@ const VideoCarousel = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [manualScrollTimeout, setManualScrollTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<typeof videoData[0] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openVideoModal = (video: typeof videoData[0]) => {
-    setSelectedVideo(video);
-    setIsModalOpen(true);
-  };
-
-  const closeVideoModal = () => {
-    setSelectedVideo(null);
-    setIsModalOpen(false);
-  };
 
   // Create enough copies for seamless infinite scroll
   const duplicatedVideoData = [...videoData, ...videoData, ...videoData, ...videoData];
@@ -342,54 +272,45 @@ const VideoCarousel = () => {
   };
 
   return (
-    <>
-      <div 
-        className="relative w-full"
-        onMouseEnter={handleCarouselMouseEnter}
-        onMouseLeave={handleCarouselMouseLeave}
+    <div 
+      className="relative w-full"
+      onMouseEnter={handleCarouselMouseEnter}
+      onMouseLeave={handleCarouselMouseLeave}
+    >
+      {/* Scroll Buttons */}
+      <button
+        onClick={() => scroll('left')}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
       >
-        {/* Scroll Buttons */}
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+      
+      <button
+        onClick={() => scroll('right')}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
 
-        {/* Video Container */}
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-          style={{ 
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none',
-            WebkitScrollbar: { display: 'none' }
-          }}
-        >
-          {duplicatedVideoData.map((video, index) => (
-            <VideoCard key={`${video.id}-${index}`} video={video} index={index} openVideoModal={openVideoModal} />
-          ))}
-        </div>
-        
-        {/* Fade edges */}
-        <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      {/* Video Container */}
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          WebkitScrollbar: { display: 'none' }
+        }}
+      >
+        {duplicatedVideoData.map((video, index) => (
+          <VideoCard key={`${video.id}-${index}`} video={video} index={index} />
+        ))}
       </div>
-
-      {/* Video Modal */}
-      <VideoModal 
-        video={selectedVideo} 
-        isOpen={isModalOpen} 
-        onClose={closeVideoModal} 
-      />
-    </>
+      
+      {/* Fade edges */}
+      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+    </div>
   );
 };
 
