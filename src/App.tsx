@@ -75,7 +75,7 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          
+          <div className="flex items-center gap-3">
             <div className="relative">
               <Film className="w-8 h-8 text-black" />
               <div className="absolute inset-0 bg-black/10 rounded-full blur-sm" />
