@@ -394,11 +394,11 @@ function App() {
           {/* Main Headline */}
           <h1 className="text-4xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
-              AI-Generated Ads &
+              AI-Generated Ads & Short Films
             </span>
             <br />
             <span className="bg-gradient-to-r from-gray-900 via-black to-gray-800 bg-clip-text text-transparent">
-              Short Films,
+              
             </span>
             <br />
             <span className="text-black">
