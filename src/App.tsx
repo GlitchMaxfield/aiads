@@ -1,61 +1,61 @@
 import React, { useRef, useState } from 'react';
-import { Play, ChevronLeft, ChevronRight, Film } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, Film, X } from 'lucide-react';
 
 const videoData = [
   {
     id: 1,
     title: "AI Commercial",
     thumbnail: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     orientation: "landscape"
   },
   {
     id: 2,
     title: "Tech Animation",
     thumbnail: "https://images.pexels.com/videos/6153354/free-video-6153354.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/jNQXAC9IVRw",
     orientation: "vertical"
   },
   {
     id: 3,
     title: "Product Showcase",
     thumbnail: "https://images.pexels.com/videos/4752176/free-video-4752176.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/M7lc1UVf-VE",
     orientation: "landscape"
   },
   {
     id: 4,
     title: "Lamborghini",
     thumbnail: "https://images.pexels.com/videos/3209828/free-video-3209828.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://youtube.com/shorts/j6mb2DlfWlg?feature=share",
+    video: "https://www.youtube.com/embed/kJQP7kiw5Fk",
     orientation: "vertical"
   },
   {
     id: 5,
     title: "Motion Graphics",
     thumbnail: "https://images.pexels.com/videos/6774139/free-video-6774139.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/L_jWHffIx5E",
     orientation: "landscape"
   },
   {
     id: 6,
     title: "AI Visualization",
     thumbnail: "https://images.pexels.com/videos/4752176/free-video-4752176.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/9bZkp7q19f0",
     orientation: "vertical"
   },
   {
     id: 7,
     title: "Digital Art",
     thumbnail: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/ScMzIvxBSi4",
     orientation: "landscape"
   },
   {
     id: 8,
     title: "Future Tech",
     thumbnail: "https://images.pexels.com/videos/6153354/free-video-6153354.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    video: "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761",
+    video: "https://www.youtube.com/embed/fJ9rUzIMcZQ",
     orientation: "vertical"
   }
 ];
@@ -121,25 +121,66 @@ const Navigation = () => {
   );
 };
 
-const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number }) => {
+const VideoModal = ({ video, isOpen, onClose }: { 
+  video: typeof videoData[0] | null, 
+  isOpen: boolean, 
+  onClose: () => void 
+}) => {
+  if (!isOpen || !video) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+      <div className="relative w-full max-w-4xl mx-4">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-300"
+        >
+          <X className="w-8 h-8" />
+        </button>
+        
+        {/* Video Container */}
+        <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
+          <div className="aspect-video">
+            <iframe
+              src={`${video.video}?autoplay=1`}
+              title={video.title}
+              className="w-full h-full"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          
+          {/* Video Info */}
+          <div className="p-6 bg-white">
+            <h3 className="text-xl font-semibold text-black mb-2">{video.title}</h3>
+            <p className="text-gray-600">AI-generated content showcasing creative possibilities</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const VideoCard = ({ video, index, onPlay }: { 
+  video: typeof videoData[0], 
+  index: number,
+  onPlay: (video: typeof videoData[0]) => void
+}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    if (videoRef.current) {
-      videoRef.current.play();
-      setIsPlaying(true);
-    }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
+  };
+
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onPlay(video);
   };
 
   const isVertical = video.orientation === 'vertical';
@@ -157,24 +198,13 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
         
-        {/* Video/Image */}
+        {/* Thumbnail */}
         <div className="relative w-full h-full">
           <img
             src={video.thumbnail}
             alt={video.title}
             className="w-full h-full object-cover"
           />
-          <video
-            ref={videoRef}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-              isPlaying ? 'opacity-100' : 'opacity-0'
-            }`}
-            loop
-            muted
-            playsInline
-          >
-            <source src={video.video} type="video/mp4" />
-          </video>
         </div>
 
         {/* Play Icon */}
@@ -182,8 +212,9 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
           className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
             isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
           }`}
+          onClick={handlePlayClick}
         >
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
             <Play className="w-8 h-8 text-white fill-white" />
           </div>
         </div>
@@ -209,6 +240,8 @@ const VideoCarousel = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [manualScrollTimeout, setManualScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<typeof videoData[0] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Create enough copies for seamless infinite scroll
   const duplicatedVideoData = [...videoData, ...videoData, ...videoData, ...videoData];
@@ -271,46 +304,70 @@ const VideoCarousel = () => {
     }
   };
 
-  return (
-    <div 
-      className="relative w-full"
-      onMouseEnter={handleCarouselMouseEnter}
-      onMouseLeave={handleCarouselMouseLeave}
-    >
-      {/* Scroll Buttons */}
-      <button
-        onClick={() => scroll('left')}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      
-      <button
-        onClick={() => scroll('right')}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
+  const handleVideoPlay = (video: typeof videoData[0]) => {
+    setSelectedVideo(video);
+    setIsModalOpen(true);
+  };
 
-      {/* Video Container */}
-      <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          WebkitScrollbar: { display: 'none' }
-        }}
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+  };
+
+  return (
+    <>
+      <div 
+        className="relative w-full"
+        onMouseEnter={handleCarouselMouseEnter}
+        onMouseLeave={handleCarouselMouseLeave}
       >
-        {duplicatedVideoData.map((video, index) => (
-          <VideoCard key={`${video.id}-${index}`} video={video} index={index} />
-        ))}
+        {/* Scroll Buttons */}
+        <button
+          onClick={() => scroll('left')}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        
+        <button
+          onClick={() => scroll('right')}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+
+        {/* Video Container */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none',
+            WebkitScrollbar: { display: 'none' }
+          }}
+        >
+          {duplicatedVideoData.map((video, index) => (
+            <VideoCard 
+              key={`${video.id}-${index}`} 
+              video={video} 
+              index={index} 
+              onPlay={handleVideoPlay}
+            />
+          ))}
+        </div>
+        
+        {/* Fade edges */}
+        <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+        <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
       </div>
       
-      {/* Fade edges */}
-      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
-    </div>
+      {/* Video Modal */}
+      <VideoModal 
+        video={selectedVideo} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
+    </>
   );
 };
 
