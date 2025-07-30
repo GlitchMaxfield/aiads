@@ -206,8 +206,53 @@ const VideoCard = ({ video, index }: { video: typeof videoData[0], index: number
 
 const VideoCarousel = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Create duplicated data for infinite scroll
+  const duplicatedVideoData = [...videoData, ...videoData, ...videoData];
+
+  // Auto-scroll functionality
+  React.useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let animationId: number;
+    const scrollSpeed = 0.5; // pixels per frame
+
+    const autoScroll = () => {
+      if (!isScrolling && scrollContainer) {
+        scrollContainer.scrollLeft += scrollSpeed;
+        
+        // Reset scroll position when we've scrolled through one full set
+        const maxScroll = scrollContainer.scrollWidth / 3; // Since we have 3 copies
+        if (scrollContainer.scrollLeft >= maxScroll) {
+          scrollContainer.scrollLeft = maxScroll / 3; // Reset to middle section
+        }
+      }
+      animationId = requestAnimationFrame(autoScroll);
+    };
+
+    animationId = requestAnimationFrame(autoScroll);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [isScrolling]);
+
+  // Handle manual scrolling
+  const handleScroll = () => {
+    setIsScrolling(true);
+    
+    // Resume auto-scroll after user stops scrolling
+    setTimeout(() => {
+      setIsScrolling(false);
+    }, 2000);
+  };
 
   const scroll = (direction: 'left' | 'right') => {
+    setIsScrolling(true);
     if (scrollRef.current) {
       const scrollAmount = 300;
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
@@ -215,6 +260,11 @@ const VideoCarousel = () => {
         left: newScrollLeft,
         behavior: 'smooth'
       });
+      
+      // Resume auto-scroll after manual scroll
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 2000);
     }
   };
 
@@ -238,6 +288,7 @@ const VideoCarousel = () => {
       {/* Video Container */}
       <div
         ref={scrollRef}
+        onScroll={handleScroll}
         className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
@@ -245,7 +296,7 @@ const VideoCarousel = () => {
           WebkitScrollbar: { display: 'none' }
         }}
       >
-        {videoData.map((video, index) => (
+        {duplicatedVideoData.map((video, index) => (
           <VideoCard key={video.id} video={video} index={index} />
         ))}
       </div>
