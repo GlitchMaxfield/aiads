@@ -77,11 +77,11 @@ const Navigation = () => {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Film className="w-18 h-18 text-black" />
+              <Film className="w-8 h-8 text-black" />
               <div className="absolute inset-0 bg-black/10 rounded-full blur-sm" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
-              movico.studios
+              movico.studio
             </span>
           </div>
 
