@@ -193,7 +193,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/800 via-transparent to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
           
           {/* Thumbnail */}
           <div className="relative w-full h-full">
@@ -233,7 +233,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-0 h-80">
+    <div className="relative flex-shrink-0 h-280">
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
           isVertical ? 'w-52' : 'w-96'
