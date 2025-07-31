@@ -481,14 +481,14 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16"> 
+      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-left justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16"> 
 
         {/* Left Content */}
         <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-12 lg:mb-0">
           {/* Main Headline */}
           <h1 className="text-4xl lg:text-6xl xl:text-6xl font-bold leading-tight mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
-              AI-Generated Ads & Short Filmss
+              AI-Generated Ads & Short Films
             </span>
             <br />
             <span className="bg-gradient-to-r from-gray-900 via-black to-gray-800 bg-clip-text text-transparent">
