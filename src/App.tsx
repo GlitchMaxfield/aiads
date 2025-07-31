@@ -19,7 +19,7 @@ const videoData = [
   {
     id: 3,
     title: "Product Showcase",
-    thumbnail: "https://images.pexels.com/videos/4752176/free-video-4752176.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://teknonel.com/wp-content/uploads/2022/06/5-Best-gaming-mouse-under-30-in-2022-min.jpg",
     video: "https://www.youtube.com/embed/M7lc1UVf-VE",
     orientation: "landscape"
   },
