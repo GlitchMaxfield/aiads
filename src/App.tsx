@@ -233,7 +233,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-30 h-80">  
+    <div className="relative flex-shrink-0 h-80">   
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
           isVertical ? 'w-52' : 'w-96' 
