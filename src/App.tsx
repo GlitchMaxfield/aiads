@@ -54,7 +54,7 @@ const videoData = [
   {
     id: 8,
     title: "Future Tech",
-    thumbnail: "https://images.pexels.com/videos/6153354/free-video-6153354.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://tse3.mm.bing.net/th/id/OIP.hzXCVO3ceyYL35RSiDGBvAHaHn?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     video: "https://www.youtube.com/embed/fJ9rUzIMcZQ",
     orientation: "vertical"
   }
