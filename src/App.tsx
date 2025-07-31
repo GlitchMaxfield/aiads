@@ -152,7 +152,7 @@ const VideoModal = ({ video, isOpen, onClose }: {
           </div>
           
           {/* Video Info */}
-          <div className="p-9 bg-white">
+          <div className="p-6 bg-white">
             <h3 className="text-xl font-semibold text-black mb-2">{video.title}</h3>
             <p className="text-gray-600">AI-generated content showcasing creative possibilities</p>
           </div>
@@ -193,7 +193,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
           
           {/* Thumbnail */}
           <div className="relative w-full h-full">
