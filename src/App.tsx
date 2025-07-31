@@ -121,7 +121,6 @@ const Navigation = ({ activeItem, setActiveItem }: {
 };
 
 const VideoModal = ({ video, isOpen, onClose }: { 
-  video: typeof videoData[0] | null, 
   isOpen: boolean, 
   onClose: () => void 
 }) => {
