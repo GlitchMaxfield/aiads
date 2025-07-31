@@ -33,7 +33,7 @@ const videoData = [
   {
     id: 5,
     title: "Motion Graphics",
-    thumbnail: "https://images.pexels.com/videos/6774139/free-video-6774139.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://cubicleninjas.com/wp-content/uploads/2019/09/motion-graphics-examples.jpg",
     video: "https://www.youtube.com/embed/L_jWHffIx5E",
     orientation: "landscape"
   },
