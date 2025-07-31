@@ -47,7 +47,7 @@ const videoData = [
   {
     id: 7,
     title: "Digital Art",
-    thumbnail: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://wallpaperaccess.com/full/176937.jpg",
     video: "https://www.youtube.com/embed/ScMzIvxBSi4",
     orientation: "landscape"
   },
