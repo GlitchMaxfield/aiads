@@ -233,12 +233,12 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-0 h-64">
+    <div className="relative flex-shrink-0 h-96">
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
           isVertical ? 'w-40' : 'w-80'
         } ${
-          isHovered ? 'transform scale-105 shadow-2xl shadow-black/20' : ''
+          isHovered ? 'shadow-2xl shadow-black/20' : ''
         }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -334,7 +334,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
     setIsPaused(true);
     
     if (scrollRef.current) {
-      const scrollAmount = 320; // Adjust based on card width + gap
+      const scrollAmount = 420; // Adjust based on card width + gap
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
       scrollRef.current.scrollTo({
         left: newScrollLeft,
@@ -345,7 +345,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
 
   return (
     <div 
-      className="relative w-full"
+      className="relative w-full overflow-visible"
       onMouseEnter={handleCarouselMouseEnter}
       onMouseLeave={handleCarouselMouseLeave}
     >
@@ -367,7 +367,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       {/* Video Container */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        className="flex gap-8 overflow-x-auto pb-4 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -385,8 +385,8 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       </div>
       
       {/* Fade edges */}
-      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 w-24 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
     </div>
   );
 };
