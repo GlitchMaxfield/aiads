@@ -80,7 +80,7 @@ const Navigation = ({ activeItem, setActiveItem }: {
             <img 
               src="/logo.png" 
               alt="Movico Studio" 
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
           </div>
 
@@ -500,7 +500,7 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
           </h1>
 
           {/* Tagline */}
-          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
+          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
             Unleashing storytelling with AI creativity.
           </p>
 
