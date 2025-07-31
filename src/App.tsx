@@ -12,7 +12,7 @@ const videoData = [
   {
     id: 2,
     title: "Tech Animation",
-    thumbnail: "https://images.pexels.com/videos/6153354/free-video-6153354.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://images-na.ssl-images-amazon.com/images/I/31GjEJUp2EL.jpg",
     video: "https://www.youtube.com/embed/jNQXAC9IVRw",
     orientation: "vertical"
   },
