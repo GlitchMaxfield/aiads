@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Play, ChevronLeft, ChevronRight, Film, X } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, Film, X, ArrowLeft } from 'lucide-react';
 
 const videoData = [
   {
@@ -60,9 +60,10 @@ const videoData = [
   }
 ];
 
-const Navigation = () => {
-  const [activeItem, setActiveItem] = useState('home');
-  
+const Navigation = ({ activeItem, setActiveItem }: { 
+  activeItem: string, 
+  setActiveItem: (item: string) => void 
+}) => {
   const navItems = [
     { id: 'home', label: 'Home Page' },
     { id: 'portfolio', label: 'Portfolio' },
@@ -75,14 +76,12 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Film className="w-8 h-8 text-black" />
-              <div className="absolute inset-0 bg-black/10 rounded-full blur-sm" />
-            </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
-              movico.studios
-            </span>
+          <div className="flex items-center">
+            <img 
+              src="/logo.png" 
+              alt="Movico Studio" 
+              className="h-10 w-auto"
+            />
           </div>
 
           {/* Navigation Items */}
@@ -91,7 +90,7 @@ const Navigation = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveItem(item.id)}
-                className={`relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
+                className={`relative px-3 py-2 text-lg font-medium transition-all duration-300 ${
                   activeItem === item.id
                     ? 'text-black'
                     : 'text-gray-600 hover:text-black'
@@ -163,10 +162,11 @@ const VideoModal = ({ video, isOpen, onClose }: {
   );
 };
 
-const VideoCard = ({ video, index, onPlay }: { 
+const VideoCard = ({ video, index, onPlay, isGrid = false }: { 
   video: typeof videoData[0], 
   index: number,
-  onPlay: (video: typeof videoData[0]) => void
+  onPlay: (video: typeof videoData[0]) => void,
+  isGrid?: boolean
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -184,6 +184,53 @@ const VideoCard = ({ video, index, onPlay }: {
   };
 
   const isVertical = video.orientation === 'vertical';
+
+  if (isGrid) {
+    return (
+      <div className="relative group">
+        <div
+          className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 aspect-video bg-gray-100"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+          
+          {/* Thumbnail */}
+          <div className="relative w-full h-full">
+            <img
+              src={video.thumbnail}
+              alt={video.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Play Icon */}
+          <div
+            className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
+              isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+            }`}
+            onClick={handlePlayClick}
+          >
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
+              <Play className="w-8 h-8 text-white fill-white" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="absolute bottom-4 left-4 z-20">
+            <h3 className="text-white font-medium text-sm">{video.title}</h3>
+          </div>
+
+          {/* Hover Effect */}
+          <div
+            className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
+              isHovered ? 'ring-2 ring-black/30 transform scale-105' : ''
+            }`}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex-shrink-0 h-64">
@@ -235,13 +282,10 @@ const VideoCard = ({ video, index, onPlay }: {
   );
 };
 
-const VideoCarousel = () => {
+const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) => void }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [manualScrollTimeout, setManualScrollTimeout] = useState<NodeJS.Timeout | null>(null);
-  const [selectedVideo, setSelectedVideo] = useState<typeof videoData[0] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Create enough copies for seamless infinite scroll
   const duplicatedVideoData = [...videoData, ...videoData, ...videoData, ...videoData];
@@ -289,11 +333,6 @@ const VideoCarousel = () => {
     // Stop auto-scroll permanently when buttons are used
     setIsPaused(true);
     
-    // Clear any existing timeout
-    if (manualScrollTimeout) {
-      clearTimeout(manualScrollTimeout);
-    }
-    
     if (scrollRef.current) {
       const scrollAmount = 320; // Adjust based on card width + gap
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
@@ -304,79 +343,133 @@ const VideoCarousel = () => {
     }
   };
 
-  const handleVideoPlay = (video: typeof videoData[0]) => {
-    setSelectedVideo(video);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedVideo(null);
-  };
-
   return (
-    <>
-      <div 
-        className="relative w-full"
-        onMouseEnter={handleCarouselMouseEnter}
-        onMouseLeave={handleCarouselMouseLeave}
+    <div 
+      className="relative w-full"
+      onMouseEnter={handleCarouselMouseEnter}
+      onMouseLeave={handleCarouselMouseLeave}
+    >
+      {/* Scroll Buttons */}
+      <button
+        onClick={() => scroll('left')}
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
       >
-        {/* Scroll Buttons */}
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+      
+      <button
+        onClick={() => scroll('right')}
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
 
-        {/* Video Container */}
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-          style={{ 
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none',
-            WebkitScrollbar: { display: 'none' }
-          }}
-        >
-          {duplicatedVideoData.map((video, index) => (
-            <VideoCard 
-              key={`${video.id}-${index}`} 
-              video={video} 
-              index={index} 
-              onPlay={handleVideoPlay}
-            />
-          ))}
-        </div>
-        
-        {/* Fade edges */}
-        <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-        <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      {/* Video Container */}
+      <div
+        ref={scrollRef}
+        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          WebkitScrollbar: { display: 'none' }
+        }}
+      >
+        {duplicatedVideoData.map((video, index) => (
+          <VideoCard 
+            key={`${video.id}-${index}`} 
+            video={video} 
+            index={index} 
+            onPlay={onVideoPlay}
+          />
+        ))}
       </div>
       
-      {/* Video Modal */}
-      <VideoModal 
-        video={selectedVideo} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
-      />
-    </>
+      {/* Fade edges */}
+      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+    </div>
   );
 };
 
-function App() {
+const PortfolioPage = ({ onVideoPlay, onBack }: { 
+  onVideoPlay: (video: typeof videoData[0]) => void,
+  onBack: () => void 
+}) => {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <Navigation />
+    <div className="min-h-screen bg-white pt-20">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
+      </div>
 
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-12">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors duration-300"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="text-lg">Back to Home</span>
+          </button>
+        </div>
+
+        <div className="text-center mb-16">
+          <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
+              Our Portfolio
+            </span>
+          </h1>
+          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto">
+            Explore our collection of AI-generated advertisements and short films that showcase the future of creative storytelling.
+          </p>
+        </div>
+
+        {/* Video Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {videoData.map((video, index) => (
+            <VideoCard 
+              key={video.id} 
+              video={video} 
+              index={index} 
+              onPlay={onVideoPlay}
+              isGrid={true}
+            />
+          ))}
+        </div>
+
+        {/* Stats Section */}
+        <div className="mt-20 text-center">
+          <div className="flex items-center justify-center gap-12 text-sm text-gray-500">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-black mb-2">{videoData.length}+</div>
+              <div>Creative Projects</div>
+            </div>
+            <div className="w-px h-12 bg-gray-300" />
+            <div className="text-center">
+              <div className="text-4xl font-bold text-black mb-2">100%</div>
+              <div>AI Generated</div>
+            </div>
+            <div className="w-px h-12 bg-gray-300" />
+            <div className="text-center">
+              <div className="text-4xl font-bold text-black mb-2">∞</div>
+              <div>Creative Possibilities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) => void }) => {
+  return (
+    <>
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
@@ -443,7 +536,7 @@ function App() {
             <h3 className="text-black text-xl font-semibold mb-6 text-center lg:text-left">
               AI Masterpieces in Motion
             </h3>
-            <VideoCarousel />
+            <VideoCarousel onVideoPlay={onVideoPlay} />
           </div>
         </div>
       </div>
@@ -461,13 +554,11 @@ function App() {
             {/* Company Info */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="relative">
-                  <Film className="w-8 h-8 text-black" />
-                  <div className="absolute inset-0 bg-black/10 rounded-full blur-sm" />
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-black to-gray-800 bg-clip-text text-transparent">
-                  movico.studio
-                </span>
+                <img 
+                  src="/logo.png" 
+                  alt="Movico Studio" 
+                  className="h-8 w-auto"
+                />
               </div>
               <p className="text-gray-600 text-lg leading-relaxed mb-6 max-w-md">
                 Pioneering the future of storytelling through AI-powered video creation. Transform your ideas into stunning visual narratives.
@@ -531,6 +622,48 @@ function App() {
           </div>
         </div>
       </footer>
+    </>
+  );
+};
+
+function App() {
+  const [activeItem, setActiveItem] = useState('home');
+  const [selectedVideo, setSelectedVideo] = useState<typeof videoData[0] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleVideoPlay = (video: typeof videoData[0]) => {
+    setSelectedVideo(video);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+  };
+
+  const handleBackToHome = () => {
+    setActiveItem('home');
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <Navigation activeItem={activeItem} setActiveItem={setActiveItem} />
+
+      {/* Page Content */}
+      {activeItem === 'home' && <HomePage onVideoPlay={handleVideoPlay} />}
+      {activeItem === 'portfolio' && (
+        <PortfolioPage onVideoPlay={handleVideoPlay} onBack={handleBackToHome} />
+      )}
+      {activeItem === 'about' && <HomePage onVideoPlay={handleVideoPlay} />}
+      {activeItem === 'contact' && <HomePage onVideoPlay={handleVideoPlay} />}
+      
+      {/* Video Modal */}
+      <VideoModal 
+        video={selectedVideo} 
+        isOpen={isModalOpen} 
+        onClose={handleCloseModal} 
+      />
     </div>
   );
 }
