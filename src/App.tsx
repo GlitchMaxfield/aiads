@@ -233,10 +233,10 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-0 h-64">
+    <div className="relative flex-shrink-0 h-80">
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
-          isVertical ? 'w-40' : 'w-80'
+          isVertical ? 'w-52' : 'w-96'
         } ${
           isHovered ? 'transform scale-105 shadow-2xl shadow-black/20' : ''
         }`}
@@ -262,13 +262,13 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           onClick={handlePlayClick}
         >
           <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
-            <Play className="w-8 h-8 text-white fill-white" />
+            <Play className="w-10 h-10 text-white fill-white" />
           </div>
         </div>
 
         {/* Title */}
         <div className="absolute bottom-4 left-4 z-20">
-          <h3 className="text-white font-medium text-sm">{video.title}</h3>
+          <h3 className="text-white font-medium text-base">{video.title}</h3>
         </div>
 
         {/* Glow Effect */}
@@ -300,7 +300,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
 
     const autoScroll = () => {
       if (!isPaused && !isHovered && scrollContainer) {
-        scrollContainer.scrollLeft += scrollSpeed;
+          const scrollAmount = 420; // Adjust based on card width + gap
         
         // Calculate when to reset for seamless loop
         const singleSetWidth = (scrollContainer.scrollWidth / 4); // Since we have 4 copies
