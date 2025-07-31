@@ -193,7 +193,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/800 via-transparent to-transparent z-10" />
           
           {/* Thumbnail */}
           <div className="relative w-full h-full">
