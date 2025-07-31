@@ -236,7 +236,7 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
     <div className="relative flex-shrink-0">
       <div
         className={`relative rounded-2xl cursor-pointer transition-all duration-500 ${
-          isVertical ? 'w-42 h-72' : 'w-72 h-72' 
+          isVertical ? 'w-42 h-72' : 'w-92 h-72' 
         } ${
           isHovered ? 'shadow-2xl shadow-black/20 transform scale-105' : ''
         }`}
