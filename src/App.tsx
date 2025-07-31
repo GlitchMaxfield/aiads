@@ -631,6 +631,144 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
           </div>
         </div>
       </footer>
+          {/* Main Headline */}
+          <h1 className="text-4xl lg:text-6xl xl:text-6xl font-bold leading-tight mb-6">
+            <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
+              AI-Generated Ads & Short Films
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-gray-900 via-black to-gray-800 bg-clip-text text-transparent">
+              
+            </span>
+            <br />
+            <span className="text-black">
+             
+            </span>
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto  lg:mx-0 text-center lg:text-left">
+            Unleashing storytelling with AI creativity.
+          </p>
+
+          {/* CTA Button */}
+          <button className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
+            <span className="relative z-10">Start Creating Now</span>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+            <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+          </button>
+
+          {/* Stats */}
+          <div className="flex items-center justify-center lg:justify-start gap-8 mt-12 text-sm text-gray-500">
+            <div className="text-center lg:text-left">
+              <div className="text-5xl font-bold text-black">50+</div>
+              <div>Advertisements Created</div>
+            </div>
+            <div className="w-px h-8 bg-gray-300" />
+            <div className="text-center lg:text-left">
+              <div className="text-5xl font-bold text-black">10+</div>
+              <div>Happy Clients</div>
+            </div>
+            <div className="w-px h-8 bg-gray-300" />
+            <div className="text-center lg:text-left">
+              <div className="text-5xl font-bold text-black">100%</div>
+              <div>Productivity</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Content - Video Carousel */}
+        <div className="flex-1 w-full lg:max-w-2xl">
+          <div className="relative">
+            <h3 className="text-black text-xl font-semibold mb-6 text-center lg:text-left">
+              AI Masterpieces in Motion
+            </h3>
+            <VideoCarousel onVideoPlay={onVideoPlay} />
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Elements */}
+      <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse" />
+      <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
+
+      {/* Footer */}
+      <footer className="relative z-10 bg-gray-50/95 backdrop-blur-sm border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center gap-3 mb-6">
+                <img 
+                  src="/logo.png" 
+                  alt="Movico Studio" 
+                  className="h-8 w-auto"
+                />
+              </div>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6 max-w-md">
+                Pioneering the future of storytelling through AI-powered video creation. Transform your ideas into stunning visual narratives.
+              </p>
+              <div className="flex space-x-4">
+                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
+                  <div className="w-5 h-5 bg-current" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+                </button>
+                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
+                  <div className="w-5 h-5 bg-current rounded-full" />
+                </button>
+                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
+                  <div className="w-5 h-5 bg-current" style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)' }} />
+                </button>
+              </div>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h3 className="text-black font-semibold text-lg mb-6">Services</h3>
+              <ul className="space-y-4">
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">AI Video Generation</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Commercial Production</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Short Film Creation</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Brand Storytelling</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Motion Graphics</a></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <h3 className="text-black font-semibold text-lg mb-6">Contact</h3>
+              <ul className="space-y-4">
+                <li className="text-gray-600">
+                  <span className="block text-sm text-gray-500">Email</span>
+                  hello@movico.studio
+                </li>
+                <li className="text-gray-600">
+                  <span className="block text-sm text-gray-500">Phone</span>
+                  +1 (555) 123-4567
+                </li>
+                <li className="text-gray-600">
+                  <span className="block text-sm text-gray-500">Address</span>
+                  123 Creative District<br />
+                  Los Angeles, CA 90028
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Bar */}
+          <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <div className="text-gray-500 text-sm mb-4 md:mb-0">
+              © 2025 Movico Studio. All rights reserved.
+            </div>
+            <div className="flex space-x-6 text-sm">
+              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Privacy Policy</a>
+              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Terms of Service</a>
+              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Cookie Policy</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 };
