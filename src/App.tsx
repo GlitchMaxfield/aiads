@@ -139,13 +139,13 @@ const VideoModal = ({ video, isOpen, onClose }: {
         </button>
         
         {/* Video Container */}
-        <div className="relative bg-black rounded-lg overflow-hidden shadow-4xl">
+        <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
           <div className="aspect-video">
             <iframe
               src={`${video.video}?autoplay=1`}
               title={video.title}
               className="w-full h-full"
-              frameBorder="0"
+              frameBorder="3"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
