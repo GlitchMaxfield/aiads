@@ -233,20 +233,20 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-0 h-96">
+    <div className="relative flex-shrink-0">
       <div
-        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
-          isVertical ? 'w-40' : 'w-80'
+        className={`relative rounded-2xl cursor-pointer transition-all duration-500 ${
+          isVertical ? 'w-84 h-144' : 'w-144 h-84'
         } ${
-          isHovered ? 'shadow-2xl shadow-black/20' : ''
+          isHovered ? 'shadow-2xl shadow-black/20 transform scale-105' : ''
         }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 rounded-2xl overflow-hidden" />
         
         {/* Thumbnail */}
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full rounded-2xl overflow-hidden">
           <img
             src={video.thumbnail}
             alt={video.title}
@@ -254,24 +254,26 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           />
         </div>
 
-        {/* Play Icon */}
+        {/* Permanent Play Icon */}
         <div
-          className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-          }`}
+          className="absolute inset-0 flex items-center justify-center z-20 transition-all duration-300"
           onClick={handlePlayClick}
         >
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
-            <Play className="w-8 h-8 text-white fill-white" />
+          <div className={`bg-white/20 backdrop-blur-sm rounded-full cursor-pointer transition-all duration-300 ${
+            isHovered ? 'bg-white/30 p-6 scale-110' : 'bg-white/15 p-5'
+          }`}>
+            <Play className={`text-white fill-white transition-all duration-300 ${
+              isHovered ? 'w-10 h-10' : 'w-8 h-8'
+            }`} />
           </div>
         </div>
 
         {/* Title */}
         <div className="absolute bottom-4 left-4 z-20">
-          <h3 className="text-white font-medium text-sm">{video.title}</h3>
+          <h3 className="text-white font-medium text-base">{video.title}</h3>
         </div>
 
-        {/* Glow Effect */}
+        {/* Hover Ring Effect */}
         <div
           className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
             isHovered ? 'ring-2 ring-black/30' : ''
@@ -296,7 +298,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
     if (!scrollContainer) return;
 
     let animationId: number;
-    const scrollSpeed = 0.8; // pixels per frame
+    const scrollSpeed = 1.2; // pixels per frame (increased for larger cards)
 
     const autoScroll = () => {
       if (!isPaused && !isHovered && scrollContainer) {
@@ -334,7 +336,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
     setIsPaused(true);
     
     if (scrollRef.current) {
-      const scrollAmount = 420; // Adjust based on card width + gap
+      const scrollAmount = 600; // Increased for larger cards
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
       scrollRef.current.scrollTo({
         left: newScrollLeft,
@@ -345,7 +347,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
 
   return (
     <div 
-      className="relative w-full overflow-visible"
+      className="relative w-full"
       onMouseEnter={handleCarouselMouseEnter}
       onMouseLeave={handleCarouselMouseLeave}
     >
@@ -367,7 +369,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       {/* Video Container */}
       <div
         ref={scrollRef}
-        className="flex gap-8 overflow-x-auto pb-4 scrollbar-hide"
+        className="flex gap-12 overflow-x-auto pb-8 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -385,8 +387,8 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       </div>
       
       {/* Fade edges */}
-      <div className="absolute top-0 left-0 w-24 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
     </div>
   );
 };
