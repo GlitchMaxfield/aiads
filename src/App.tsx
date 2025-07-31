@@ -486,7 +486,7 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
         {/* Left Content */}
         <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-12 lg:mb-0">
           {/* Main Headline */}
-          <h1 className="text-4xl lg:text-6xl xl:text-3xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl lg:text-6xl xl:text-6xl font-bold leading-tight mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
               AI-Generated Ads & Short Films
             </span>
