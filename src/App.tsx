@@ -40,7 +40,7 @@ const videoData = [
   {
     id: 6,
     title: "AI Visualization",
-    thumbnail: "https://images.pexels.com/videos/4752176/free-video-4752176.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://img.freepik.com/premium-photo/innovative-intelligence-artificial-intelligence-depicted-through-brain-digital-elements-vertical_904318-11327.jpg",
     video: "https://www.youtube.com/embed/9bZkp7q19f0",
     orientation: "vertical"
   },
