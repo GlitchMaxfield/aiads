@@ -5,7 +5,7 @@ const videoData = [
   {
     id: 1,
     title: "AI Commercial",
-    thumbnail: "https://images.pexels.com/videos/3045163/free-video-3045163.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    thumbnail: "https://m.media-amazon.com/images/S/aplus-media/vc/09679e0b-d23f-4afb-a821-7bd728d91562.__CR0,0,970,600_PT0_SX970_V1___.png",
     video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     orientation: "landscape"
   },
