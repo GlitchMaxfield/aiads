@@ -525,8 +525,8 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
             </div>
             <div className="w-px h-8 bg-gray-300" />
             <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">10+</div>
-              <div>Satisfaction</div>
+              <div className="text-5xl font-bold text-black">100%</div>
+              <div>Productivity</div>
             </div>
           </div>
         </div>
