@@ -481,7 +481,7 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16">
+      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16"> 
 
         {/* Left Content */}
         <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-12 lg:mb-0">
