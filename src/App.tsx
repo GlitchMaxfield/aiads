@@ -4,7 +4,6 @@ import {
   Play,
   ChevronLeft,
   ChevronRight,
-  Film,
   X,
   ArrowLeft,
   Sparkles,
