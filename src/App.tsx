@@ -1,4 +1,3 @@
-
 import React, { useRef, useState } from "react";
 import {
   Play,
@@ -8,6 +7,7 @@ import {
   X,
   ArrowLeft,
 } from "lucide-react";
+
 const videoData = [
   {
     id: 1,
@@ -73,6 +73,7 @@ const videoData = [
     orientation: "vertical",
   },
 ];
+
 const Navigation = ({
   activeItem,
   setActiveItem,
@@ -88,17 +89,16 @@ const Navigation = ({
     { id: "about", label: "About Us" },
     { id: "contact", label: "Contact Us" },
   ];
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <img
-              src="/logo.png"
-              alt="Movico Studio"
-              className="h-8 sm:h-10 lg:h-12 w-auto"
-            />
+            <div className="bg-black text-white px-2 py-1 text-xs font-bold rounded">
+              MOVICO.STUDIO
+            </div>
           </div>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
@@ -106,7 +106,7 @@ const Navigation = ({
               <button
                 key={item.id}
                 onClick={() => setActiveItem(item.id)}
-                className={`relative px-3 py-2 text-base lg:text-lg font-medium transition-all duration-300 ${
+                className={`relative px-3 py-2 text-sm lg:text-base font-medium transition-all duration-300 ${
                   activeItem === item.id
                     ? "text-black"
                     : "text-gray-600 hover:text-black"
@@ -176,6 +176,7 @@ const Navigation = ({
     </nav>
   );
 };
+
 const VideoModal = ({
   video,
   isOpen,
@@ -186,6 +187,7 @@ const VideoModal = ({
   onClose: () => void;
 }) => {
   if (!isOpen || !video) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div className="relative w-full max-w-4xl">
@@ -224,7 +226,6 @@ const VideoModal = ({
     </div>
   );
 };
-
 
 const VideoCard = ({
   video,
@@ -277,10 +278,10 @@ const VideoCard = ({
 
   // For Carousel (horizontal scroll)
   return (
-    <div className="relative flex-shrink-0 h-48 sm:h-56 lg:h-64">
+    <div className="relative flex-shrink-0 h-36 sm:h-40 lg:h-44">
       <div
-        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-full ${
-          isVertical ? "w-32 sm:w-36 lg:w-40" : "w-64 sm:w-72 lg:w-80"
+        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-full group ${
+          isVertical ? "w-24 sm:w-28 lg:w-32" : "w-48 sm:w-56 lg:w-64"
         } hover:scale-105 hover:shadow-2xl`}
         onClick={handlePlayClick}
       >
@@ -293,13 +294,13 @@ const VideoCard = ({
         />
         {/* Play Icon - Always Visible */}
         <div className="absolute inset-0 flex items-center justify-center z-20">
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300 transform group-hover:scale-110">
-            <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white" />
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 sm:p-3 cursor-pointer hover:bg-white/30 transition-all duration-300 transform group-hover:scale-110">
+            <Play className="w-4 h-4 sm:w-6 sm:h-6 text-white fill-white" />
           </div>
         </div>
         {/* Title */}
-        <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20">
-          <h3 className="text-white font-medium text-sm transition-all duration-300 group-hover:text-yellow-300">
+        <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 z-20">
+          <h3 className="text-white font-medium text-xs sm:text-sm transition-all duration-300 group-hover:text-yellow-300">
             {video.title}
           </h3>
         </div>
@@ -307,7 +308,6 @@ const VideoCard = ({
     </div>
   );
 };
-
 
 const VideoCarousel = ({
   onVideoPlay,
@@ -317,6 +317,7 @@ const VideoCarousel = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
   // Create enough copies for seamless infinite scroll
   const duplicatedVideoData = [
     ...videoData,
@@ -324,12 +325,15 @@ const VideoCarousel = ({
     ...videoData,
     ...videoData,
   ];
+
   // Auto-scroll functionality
   React.useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
+
     let animationId: number;
     const scrollSpeed = 0.5; // pixels per frame - reduced for smoother experience
+
     const autoScroll = () => {
       if (!isPaused && !isHovered && scrollContainer) {
         scrollContainer.scrollLeft += scrollSpeed;
@@ -342,13 +346,16 @@ const VideoCarousel = ({
       }
       animationId = requestAnimationFrame(autoScroll);
     };
+
     animationId = requestAnimationFrame(autoScroll);
+
     return () => {
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
     };
   }, [isPaused, isHovered]);
+
   const scroll = (direction: "left" | "right") => {
     setIsPaused(true);
 
@@ -363,6 +370,7 @@ const VideoCarousel = ({
       });
     }
   };
+
   return (
     <div
       className="relative w-full"
@@ -383,10 +391,11 @@ const VideoCarousel = ({
       >
         <ChevronRight className="w-4 h-4 lg:w-5 lg:h-5" />
       </button>
+
       {/* Video Container */}
       <div
         ref={scrollRef}
-        className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 scrollbar-hide"
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -405,6 +414,7 @@ const VideoCarousel = ({
       {/* Fade edges */}
       <div className="absolute top-0 left-0 w-8 sm:w-16 lg:w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
       <div className="absolute top-0 right-0 w-8 sm:w-16 lg:w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+
       <style jsx>{`
         .scrollbar-hide {
           -webkit-scrollbar: none;
@@ -413,6 +423,7 @@ const VideoCarousel = ({
     </div>
   );
 };
+
 const PortfolioPage = ({
   onVideoPlay,
   onBack,
@@ -429,6 +440,7 @@ const PortfolioPage = ({
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8 sm:mb-12">
@@ -440,6 +452,7 @@ const PortfolioPage = ({
             <span className="text-base sm:text-lg">Back to Home</span>
           </button>
         </div>
+
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -451,6 +464,7 @@ const PortfolioPage = ({
             films that showcase the future of creative storytelling.
           </p>
         </div>
+
         {/* Video Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {videoData.map((video, index) => (
@@ -463,6 +477,7 @@ const PortfolioPage = ({
             />
           ))}
         </div>
+
         {/* Stats Section */}
         <div className="mt-16 lg:mt-20 text-center">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-12 text-sm text-gray-500">
@@ -493,10 +508,9 @@ const PortfolioPage = ({
   );
 };
 
-
 const HomePage = ({ onVideoPlay }) => {
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="relative h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
@@ -505,22 +519,23 @@ const HomePage = ({ onVideoPlay }) => {
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-32 pb-16">
-        {/* Main Heading */}
-        <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-6">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6">
+      <div className="relative z-10 h-full flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
+        {/* Main Content Container */}
+        <div className="text-center space-y-6 sm:space-y-8 mb-8">
+          {/* Main Heading */}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
               AI-Generated Ads & Short Films
             </span>
           </h1>
-          <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-4 max-w-2xl">
+          
+          {/* Subheading */}
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl mx-auto">
             Unleashing storytelling with AI creativity.
           </p>
-        </div>
 
-        {/* Start Creating Now Button */}
-        <div className="mb-4 lg:mb-6 w-full flex justify-center">
-          <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
+          {/* Start Creating Now Button */}
+          <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
             <span className="relative z-10">Start Creating Now</span>
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
             <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
@@ -528,103 +543,46 @@ const HomePage = ({ onVideoPlay }) => {
         </div>
 
         {/* Video Carousel */}
-        <div className="w-full max-w-6xl">
-          <div className="flex justify-center mb-4 sm:mb-6">
-            {/* You can add a title here if needed */}
-          </div>
+        <div className="w-full max-w-5xl mb-8">
           <VideoCarousel onVideoPlay={onVideoPlay} />
         </div>
-        
-      </div>
-      {/* Stats Section - Bold, Modern & Visually Appealing */}
-<div className="relative flex justify-center items-center gap-8 sm:gap-12 px-4 py-8">
-  {[
-    { number: "50+", label: "Ads Created" },
-    { number: "10+", label: "Happy Clients" },
-    { number: "100%", label: "Productivity" },
-  ].map((stat, index) => (
-    <React.Fragment key={index}>
-      <div className="text-center group">
-        {/* Big Number - Extra Bold */}
-        <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-800 mb-1 group-hover:text-black transition-colors duration-300">
-          {stat.number}
-        </div>
-        {/* Label */}
-        <div className="text-xs sm:text-sm text-gray-500 font-medium uppercase tracking-wide">
-          {stat.label}
-        </div>
-      </div>
 
-      {/* Divider - Only between items */}
-      {index < 2 && (
-        <div className="hidden sm:block w-px h-10 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
-      )}
-    </React.Fragment>
-  ))}
-</div>
+        {/* Stats Section - Positioned at bottom */}
+        <div className="relative flex justify-center items-center gap-6 sm:gap-8 lg:gap-12 px-4">
+          {[
+            { number: "50+", label: "ADS CREATED" },
+            { number: "10+", label: "HAPPY CLIENTS" },
+            { number: "100%", label: "PRODUCTIVITY" },
+          ].map((stat, index) => (
+            <React.Fragment key={index}>
+              <div className="text-center group">
+                {/* Big Number - Extra Bold */}
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-800 mb-1 group-hover:text-black transition-colors duration-300">
+                  {stat.number}
+                </div>
+                {/* Label */}
+                <div className="text-xs sm:text-sm text-gray-500 font-medium uppercase tracking-wide">
+                  {stat.label}
+                </div>
+              </div>
+
+              {/* Divider - Only between items */}
+              {index < 2 && (
+                <div className="hidden sm:block w-px h-8 lg:h-10 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
 
       {/* Floating Elements */}
       <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse opacity-60" />
       <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse opacity-60" style={{ animationDelay: "1s" }} />
       <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse opacity-60" style={{ animationDelay: "2s" }} />
       <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse opacity-60" style={{ animationDelay: "3s" }} />
-
-      {/* Footer */}
-      <footer className="relative z-10 bg-gray-50/95 backdrop-blur-sm border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <img src="/logo.png" alt="Movico Studio" className="h-8 w-auto" />
-              </div>
-              <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-6 max-w-md">
-                Pioneering the future of storytelling through AI-powered video creation. Transform your ideas into stunning visual narratives.
-              </p>
-              <div className="flex space-x-4">
-                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
-                  <div className="w-5 h-5 bg-current" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }} />
-                </button>
-                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
-                  <div className="w-5 h-5 bg-current rounded-full" />
-                </button>
-                <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
-                  <div className="w-5 h-5 bg-current" style={{ clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)" }} />
-                </button>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-black font-semibold text-lg mb-6">Services</h3>
-              <ul className="space-y-4">
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">AI Video Generation</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Commercial Production</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Short Film Creation</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Brand Storytelling</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Motion Graphics</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-black font-semibold text-lg mb-6">Contact</h3>
-              <ul className="space-y-4">
-                <li className="text-gray-600"><span className="block text-sm text-gray-500">Email</span>hello@movico.studio</li>
-                <li className="text-gray-600"><span className="block text-sm text-gray-500">Phone</span>+1 (555) 123-4567</li>
-                <li className="text-gray-600"><span className="block text-sm text-gray-500">Address</span>123 Creative District, Los Angeles, CA 90028</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-500 text-sm mb-4 md:mb-0">© 2025 Movico Studio. All rights reserved.</div>
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
-              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Privacy Policy</a>
-              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Terms of Service</a>
-              <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Cookie Policy</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
-
 
 function App() {
   const [activeItem, setActiveItem] = useState("home");
@@ -632,21 +590,26 @@ function App() {
     (typeof videoData)[0] | null
   >(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleVideoPlay = (video: (typeof videoData)[0]) => {
     setSelectedVideo(video);
     setIsModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedVideo(null);
   };
+
   const handleBackToHome = () => {
     setActiveItem("home");
   };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <Navigation activeItem={activeItem} setActiveItem={setActiveItem} />
+
       {/* Page Content */}
       {activeItem === "home" && <HomePage onVideoPlay={handleVideoPlay} />}
       {activeItem === "portfolio" && (
@@ -667,4 +630,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
