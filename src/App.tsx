@@ -1,99 +1,115 @@
-import React, { useRef, useState } from 'react';
-import { Play, ChevronLeft, ChevronRight, Film, X, ArrowLeft } from 'lucide-react';
 
+import React, { useRef, useState } from "react";
+import {
+  Play,
+  ChevronLeft,
+  ChevronRight,
+  Film,
+  X,
+  ArrowLeft,
+} from "lucide-react";
 const videoData = [
   {
     id: 1,
     title: "AI Commercial",
-    thumbnail: "https://m.media-amazon.com/images/S/aplus-media/vc/09679e0b-d23f-4afb-a821-7bd728d91562.__CR0,0,970,600_PT0_SX970_V1___.png",
+    thumbnail:
+      "https://m.media-amazon.com/images/S/aplus-media/vc/09679e0b-d23f-4afb-a821-7bd728d91562.__CR0,0,970,600_PT0_SX970_V1___.png",
     video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    orientation: "landscape"
+    orientation: "landscape",
   },
   {
     id: 2,
     title: "Tech Animation",
-    thumbnail: "https://images-na.ssl-images-amazon.com/images/I/31GjEJUp2EL.jpg",
+    thumbnail:
+      "https://images-na.ssl-images-amazon.com/images/I/31GjEJUp2EL.jpg",
     video: "https://www.youtube.com/embed/jNQXAC9IVRw",
-    orientation: "vertical"
+    orientation: "vertical",
   },
   {
     id: 3,
     title: "Product Showcase",
-    thumbnail: "https://teknonel.com/wp-content/uploads/2022/06/5-Best-gaming-mouse-under-30-in-2022-min.jpg",
+    thumbnail:
+      "https://teknonel.com/wp-content/uploads/2022/06/5-Best-gaming-mouse-under-30-in-2022-min.jpg",
     video: "https://www.youtube.com/embed/M7lc1UVf-VE",
-    orientation: "landscape"
+    orientation: "landscape",
   },
   {
     id: 4,
     title: "Lamborghini",
-    thumbnail: "https://tse2.mm.bing.net/th/id/OIP.udVRZ3t2BwxQW9GlKTu1fgHaNE?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    thumbnail:
+      "https://tse2.mm.bing.net/th/id/OIP.udVRZ3t2BwxQW9GlKTu1fgHaNE?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     video: "https://www.youtube.com/embed/YyNz4--6fro",
-    orientation: "vertical"
+    orientation: "vertical",
   },
   {
     id: 5,
     title: "Motion Graphics",
-    thumbnail: "https://cubicleninjas.com/wp-content/uploads/2019/09/motion-graphics-examples.jpg",
+    thumbnail:
+      "https://cubicleninjas.com/wp-content/uploads/2019/09/motion-graphics-examples.jpg",
     video: "https://www.youtube.com/embed/L_jWHffIx5E",
-    orientation: "landscape"
+    orientation: "landscape",
   },
   {
     id: 6,
     title: "AI Visualization",
-    thumbnail: "https://img.freepik.com/premium-photo/innovative-intelligence-artificial-intelligence-depicted-through-brain-digital-elements-vertical_904318-11327.jpg",
+    thumbnail:
+      "https://img.freepik.com/premium-photo/innovative-intelligence-artificial-intelligence-depicted-through-brain-digital-elements-vertical_904318-11327.jpg",
     video: "https://www.youtube.com/embed/9bZkp7q19f0",
-    orientation: "vertical"
+    orientation: "vertical",
   },
   {
     id: 7,
     title: "Digital Art",
     thumbnail: "https://wallpaperaccess.com/full/176937.jpg",
     video: "https://www.youtube.com/embed/ScMzIvxBSi4",
-    orientation: "landscape"
+    orientation: "landscape",
   },
   {
     id: 8,
     title: "Future Tech",
-    thumbnail: "https://tse3.mm.bing.net/th/id/OIP.hzXCVO3ceyYL35RSiDGBvAHaHn?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+    thumbnail:
+      "https://tse3.mm.bing.net/th/id/OIP.hzXCVO3ceyYL35RSiDGBvAHaHn?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
     video: "https://www.youtube.com/embed/fJ9rUzIMcZQ",
-    orientation: "vertical"
-  }
+    orientation: "vertical",
+  },
 ];
-
-const Navigation = ({ activeItem, setActiveItem }: { 
-  activeItem: string, 
-  setActiveItem: (item: string) => void 
+const Navigation = ({
+  activeItem,
+  setActiveItem,
+}: {
+  activeItem: string;
+  setActiveItem: (item: string) => void;
 }) => {
-  const navItems = [
-    { id: 'home', label: 'Home Page' },
-    { id: 'portfolio', label: 'Portfolio' },
-    { id: 'about', label: 'About Us' },
-    { id: 'contact', label: 'Contact Us' }
-  ];
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const navItems = [
+    { id: "home", label: "Home Page" },
+    { id: "portfolio", label: "Portfolio" },
+    { id: "about", label: "About Us" },
+    { id: "contact", label: "Contact Us" },
+  ];
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/180 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center px-6 lg:px-0">
-            <img 
-              src="/logo.png" 
-              alt="Movico Studio" 
-              className="h-12 w-auto"
+          <div className="flex items-center">
+            <img
+              src="/logo.png"
+              alt="Movico Studio"
+              className="h-8 sm:h-10 lg:h-12 w-auto"
             />
           </div>
-
-          {/* Navigation Items */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveItem(item.id)}
-                className={`relative px-3 py-2 text-lg font-medium transition-all duration-300 ${
+                className={`relative px-3 py-2 text-base lg:text-lg font-medium transition-all duration-300 ${
                   activeItem === item.id
-                    ? 'text-black'
-                    : 'text-gray-600 hover:text-black'
+                    ? "text-black"
+                    : "text-gray-600 hover:text-black"
                 }`}
               >
                 {item.label}
@@ -103,41 +119,84 @@ const Navigation = ({ activeItem, setActiveItem }: {
               </button>
             ))}
           </div>
-
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button className="text-gray-600 hover:text-black p-2">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-600 hover:text-black p-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+            >
               <div className="w-6 h-6 flex flex-col justify-center space-y-1">
-                <div className="w-full h-0.5 bg-current" />
-                <div className="w-full h-0.5 bg-current" />
-                <div className="w-full h-0.5 bg-current" />
+                <div
+                  className={`w-full h-0.5 bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                  }`}
+                />
+                <div
+                  className={`w-full h-0.5 bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <div
+                  className={`w-full h-0.5 bg-current transition-all duration-300 ${
+                    isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                  }`}
+                />
               </div>
             </button>
+          </div>
+        </div>
+        {/* Mobile Menu */}
+        <div
+          className={`md:hidden transition-all duration-300 ${
+            isMobileMenuOpen
+              ? "max-h-64 opacity-100"
+              : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm rounded-lg mt-2 border border-gray-200">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActiveItem(item.id);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
+                  activeItem === item.id
+                    ? "text-black bg-gray-100"
+                    : "text-gray-600 hover:text-black hover:bg-gray-50"
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>
     </nav>
   );
 };
-
-const VideoModal = ({ video, isOpen, onClose }: { 
-  video: typeof videoData[0] | null, 
-  isOpen: boolean, 
-  onClose: () => void 
+const VideoModal = ({
+  video,
+  isOpen,
+  onClose,
+}: {
+  video: (typeof videoData)[0] | null;
+  isOpen: boolean;
+  onClose: () => void;
 }) => {
   if (!isOpen || !video) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-4xl mx-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-4xl">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-300"
+          className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-300 z-10"
         >
           <X className="w-8 h-8" />
         </button>
-        
+
         {/* Video Container */}
         <div className="relative bg-black rounded-lg overflow-hidden shadow-2xl">
           <div className="aspect-video">
@@ -150,315 +209,287 @@ const VideoModal = ({ video, isOpen, onClose }: {
               allowFullScreen
             />
           </div>
-          
+
           {/* Video Info */}
-          <div className="p-6 bg-white">
-            <h3 className="text-xl font-semibold text-black mb-2">{video.title}</h3>
-            <p className="text-gray-600">AI-generated content showcasing creative possibilities</p>
+          <div className="p-4 sm:p-6 bg-white">
+            <h3 className="text-lg sm:text-xl font-semibold text-black mb-2">
+              {video.title}
+            </h3>
+            <p className="text-gray-600">
+              AI-generated content showcasing creative possibilities
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-const VideoCard = ({ video, index, onPlay, isGrid = false }: { 
-  video: typeof videoData[0], 
-  index: number,
-  onPlay: (video: typeof videoData[0]) => void,
-  isGrid?: boolean
+const VideoCard = ({
+  video,
+  index,
+  onPlay,
+  isGrid = false,
+}: {
+  video: (typeof videoData)[0];
+  index: number;
+  onPlay: (video: (typeof videoData)[0]) => void;
+  isGrid?: boolean;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onPlay(video);
   };
-
-  const isVertical = video.orientation === 'vertical';
-
+  const isVertical = video.orientation === "vertical";
   if (isGrid) {
     return (
       <div className="relative group">
         <div
-          className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 aspect-video bg-gray-100"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 aspect-video bg-gray-100 hover:scale-105"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onClick={handlePlayClick}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
-          
+
           {/* Thumbnail */}
-          <div className="relative w-full h-full">
-            <img
-              src={video.thumbnail}
-              alt={video.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Play Icon */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-              isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-            }`}
-            onClick={handlePlayClick}
-          >
-            <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
-              <Play className="w-8 h-8 text-white fill-white" />
-            </div>
-          </div>
-
-          {/* Title */}
-          <div className="absolute bottom-4 left-4 z-20">
-            <h3 className="text-white font-medium text-sm">{video.title}</h3>
-          </div>
-
-          {/* Hover Effect */}
-          <div
-            className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
-              isHovered ? 'ring-2 ring-black/30 transform scale-105' : ''
-            }`}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative flex-shrink-0 h-64">
-      <div
-        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
-          isVertical ? 'w-40' : 'w-80'
-        } ${
-          isHovered ? 'transform scale-105 shadow-2xl shadow-black/20' : ''
-        }`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
-        
-        {/* Thumbnail */}
-        <div className="relative w-full h-full">
           <img
             src={video.thumbnail}
             alt={video.title}
             className="w-full h-full object-cover"
           />
+          {/* Play Icon */}
+          <div
+            className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
+              isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"
+            }`}
+          >
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
+              <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white" />
+            </div>
+          </div>
+          {/* Title */}
+          <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20">
+            <h3 className="text-white font-medium text-sm sm:text-base">
+              {video.title}
+            </h3>
+          </div>
         </div>
+      </div>
+    );
+  }
+  return (
+    <div className="relative flex-shrink-0 h-48 sm:h-56 lg:h-64">
+      <div
+        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-full ${
+          isVertical ? "w-32 sm:w-36 lg:w-40" : "w-64 sm:w-72 lg:w-80"
+        } ${isHovered ? "transform scale-105 shadow-2xl shadow-black/20" : ""}`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={handlePlayClick}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
 
+        {/* Thumbnail */}
+        <img
+          src={video.thumbnail}
+          alt={video.title}
+          className="w-full h-full object-cover"
+        />
         {/* Play Icon */}
         <div
           className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"
           }`}
-          onClick={handlePlayClick}
         >
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
-            <Play className="w-8 h-8 text-white fill-white" />
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
+            <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white" />
           </div>
         </div>
-
         {/* Title */}
-        <div className="absolute bottom-4 left-4 z-20">
+        <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20">
           <h3 className="text-white font-medium text-sm">{video.title}</h3>
         </div>
-
-        {/* Glow Effect */}
-        <div
-          className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
-            isHovered ? 'ring-2 ring-black/30' : ''
-          }`}
-        />
       </div>
     </div>
   );
 };
-
-const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) => void }) => {
+const VideoCarousel = ({
+  onVideoPlay,
+}: {
+  onVideoPlay: (video: (typeof videoData)[0]) => void;
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
   // Create enough copies for seamless infinite scroll
-  const duplicatedVideoData = [...videoData, ...videoData, ...videoData, ...videoData];
-
+  const duplicatedVideoData = [
+    ...videoData,
+    ...videoData,
+    ...videoData,
+    ...videoData,
+  ];
   // Auto-scroll functionality
   React.useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
-
     let animationId: number;
-    const scrollSpeed = 0.8; // pixels per frame
-
+    const scrollSpeed = 0.5; // pixels per frame - reduced for smoother experience
     const autoScroll = () => {
       if (!isPaused && !isHovered && scrollContainer) {
         scrollContainer.scrollLeft += scrollSpeed;
-        
+
         // Calculate when to reset for seamless loop
-        const singleSetWidth = (scrollContainer.scrollWidth / 4); // Since we have 4 copies
+        const singleSetWidth = scrollContainer.scrollWidth / 4; // Since we have 4 copies
         if (scrollContainer.scrollLeft >= singleSetWidth * 2) {
           scrollContainer.scrollLeft = singleSetWidth; // Reset to second set
         }
       }
       animationId = requestAnimationFrame(autoScroll);
     };
-
     animationId = requestAnimationFrame(autoScroll);
-
     return () => {
       if (animationId) {
         cancelAnimationFrame(animationId);
       }
     };
   }, [isPaused, isHovered]);
-
-  // Handle mouse enter/leave for the entire carousel
-  const handleCarouselMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleCarouselMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    // Stop auto-scroll permanently when buttons are used
+  const scroll = (direction: "left" | "right") => {
     setIsPaused(true);
-    
+
     if (scrollRef.current) {
-      const scrollAmount = 320; // Adjust based on card width + gap
-      const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
+      const scrollAmount = 280; // Adjust based on card width + gap
+      const newScrollLeft =
+        scrollRef.current.scrollLeft +
+        (direction === "right" ? scrollAmount : -scrollAmount);
       scrollRef.current.scrollTo({
         left: newScrollLeft,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
-
   return (
-    <div 
+    <div
       className="relative w-full"
-      onMouseEnter={handleCarouselMouseEnter}
-      onMouseLeave={handleCarouselMouseLeave}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Scroll Buttons */}
+      {/* Scroll Buttons - Hidden on mobile */}
       <button
-        onClick={() => scroll('left')}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+        onClick={() => scroll("left")}
+        className="hidden sm:block absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-2 lg:p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
       >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
-      
-      <button
-        onClick={() => scroll('right')}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
-      >
-        <ChevronRight className="w-5 h-5" />
+        <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" />
       </button>
 
+      <button
+        onClick={() => scroll("right")}
+        className="hidden sm:block absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-full p-2 lg:p-3 text-black hover:bg-white transition-all duration-300 hover:scale-110"
+      >
+        <ChevronRight className="w-4 h-4 lg:w-5 lg:h-5" />
+      </button>
       {/* Video Container */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          WebkitScrollbar: { display: 'none' }
+        className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       >
         {duplicatedVideoData.map((video, index) => (
-          <VideoCard 
-            key={`${video.id}-${index}`} 
-            video={video} 
-            index={index} 
+          <VideoCard
+            key={`${video.id}-${index}`}
+            video={video}
+            index={index}
             onPlay={onVideoPlay}
           />
         ))}
       </div>
-      
+
       {/* Fade edges */}
-      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 w-8 sm:w-16 lg:w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-8 sm:w-16 lg:w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      <style jsx>{`
+        .scrollbar-hide {
+          -webkit-scrollbar: none;
+        }
+      `}</style>
     </div>
   );
 };
-
-const PortfolioPage = ({ onVideoPlay, onBack }: { 
-  onVideoPlay: (video: typeof videoData[0]) => void,
-  onBack: () => void 
+const PortfolioPage = ({
+  onVideoPlay,
+  onBack,
+}: {
+  onVideoPlay: (video: (typeof videoData)[0]) => void;
+  onBack: () => void;
 }) => {
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white pt-16 sm:pt-20">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
-        
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-12">
+        <div className="flex items-center gap-4 mb-8 sm:mb-12">
           <button
             onClick={onBack}
             className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors duration-300"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="text-lg">Back to Home</span>
+            <ArrowLeft className="w-4 sm:w-5 h-4 sm:h-5" />
+            <span className="text-base sm:text-lg">Back to Home</span>
           </button>
         </div>
-
-        <div className="text-center mb-16">
-          <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
               Our Portfolio
             </span>
           </h1>
-          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto">
-            Explore our collection of AI-generated advertisements and short films that showcase the future of creative storytelling.
+          <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto px-4">
+            Explore our collection of AI-generated advertisements and short
+            films that showcase the future of creative storytelling.
           </p>
         </div>
-
         {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {videoData.map((video, index) => (
-            <VideoCard 
-              key={video.id} 
-              video={video} 
-              index={index} 
+            <VideoCard
+              key={video.id}
+              video={video}
+              index={index}
               onPlay={onVideoPlay}
               isGrid={true}
             />
           ))}
         </div>
-
         {/* Stats Section */}
-        <div className="mt-20 text-center">
-          <div className="flex items-center justify-center gap-12 text-sm text-gray-500">
+        <div className="mt-16 lg:mt-20 text-center">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-12 text-sm text-gray-500">
             <div className="text-center">
-              <div className="text-4xl font-bold text-black mb-2">{videoData.length}+</div>
-              <div>Creative Projects</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black mb-2">
+                {videoData.length}+
+              </div>
+              <div className="whitespace-nowrap">Creative Projects</div>
             </div>
-            <div className="w-px h-12 bg-gray-300" />
+            <div className="hidden sm:block w-px h-12 bg-gray-300" />
             <div className="text-center">
-              <div className="text-4xl font-bold text-black mb-2">100%</div>
-              <div>AI Generated</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black mb-2">
+                100%
+              </div>
+              <div className="whitespace-nowrap">AI Generated</div>
             </div>
-            <div className="w-px h-12 bg-gray-300" />
+            <div className="hidden sm:block w-px h-12 bg-gray-300" />
             <div className="text-center">
-              <div className="text-4xl font-bold text-black mb-2">∞</div>
-              <div>Creative Possibilities</div>
+              <div className="text-3xl sm:text-4xl font-bold text-black mb-2">
+                ∞
+              </div>
+              <div className="whitespace-nowrap">Creative Possibilities</div>
             </div>
           </div>
         </div>
@@ -467,7 +498,8 @@ const PortfolioPage = ({ onVideoPlay, onBack }: {
   );
 };
 
-const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) => void }) => {
+
+const HomePage = ({ onVideoPlay }) => {
   return (
     <>
       {/* Background Effects */}
@@ -475,109 +507,94 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
-        
-        {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16">  
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-32 pb-16">
+        {/* 1. Main Heading with increased top spacing */}
+<div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-6">
+  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6">
+    <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
+      AI-Generated Ads & Short Films
+    </span>
+  </h1>
+  <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-4 max-w-2xl">
+    Unleashing storytelling with AI creativity.
+  </p>
+</div>
 
-        {/* Left Content */}
-        <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-12 lg:mb-0">
-          {/* Main Headline */}
-          <h1 className="text-4xl lg:text-6xl xl:text-6xl font-bold leading-tight mb-6">
-            <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
-              AI-Generated Ads & Short Films
-            </span>
-            <br />
-            <span className="bg-gradient-to-r from-gray-900 via-black to-gray-800 bg-clip-text text-transparent">
-              
-            </span>
-            <br />
-            <span className="text-black">
-             
-            </span>
-          </h1>
+{/* 2. "Start Creating Now" Button */}
+<div className="mb-4 lg:mb-6 w-full flex justify-center">
+  <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
+    <span className="relative z-10">Start Creating Now</span>
+    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+    <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+  </button>
+</div>
 
-          {/* Tagline */}
-          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
-            Unleashing storytelling with AI creativity.
-          </p>
-
-          {/* CTA Button */}
-          <button className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
-            <span className="relative z-10">Start Creating Now</span>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-            <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-          </button>
-
-          {/* Stats */}
-          <div className="flex items-center justify-center lg:justify-start gap-8 mt-12 text-sm text-gray-500">
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">50+</div>
-              <div>Advertisements Created</div>
-            </div>
-            <div className="w-px h-8 bg-gray-300" />
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">10+</div>
-              <div>Happy Clients</div>
-            </div>
-            <div className="w-px h-8 bg-gray-300" />
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">100%</div>
-              <div>Productivity</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Content - Video Carousel */}
-        <div className="flex-1 w-full lg:max-w-2xl">
-          <div className="relative">
-            <h3 className="text-black text-xl font-semibold mb-6 text-center lg:text-left">
+        {/* 3. Video Carousel */}
+        <div className="w-full max-w-6xl">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <h3 className="text-black text-lg sm:text-xl font-semibold">
               AI Masterpieces in Motion
             </h3>
-            <VideoCarousel onVideoPlay={onVideoPlay} />
+          </div>
+          <VideoCarousel onVideoPlay={onVideoPlay} />
+        </div>
+
+        {/* 4. Stats Section */}
+        <div className="mt-16 lg:mt-20 w-full">
+          <div className="flex flex-col xl:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-16">
+            <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">50+</div>
+                <div className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">Ads Created</div>
+              </div>
+              <div className="w-px h-8 sm:h-10 bg-gray-300" />
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">10+</div>
+                <div className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">Happy Clients</div>
+              </div>
+              <div className="w-px h-8 sm:h-10 bg-gray-300" />
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">100%</div>
+                <div className="text-xs sm:text-sm text-gray-500">Productivity</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Floating Elements */}
-      <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse" />
-      <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-      <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
+      <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse opacity-60" />
+      <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse opacity-60" style={{ animationDelay: "1s" }} />
+      <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse opacity-60" style={{ animationDelay: "2s" }} />
+      <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse opacity-60" style={{ animationDelay: "3s" }} />
 
       {/* Footer */}
       <footer className="relative z-10 bg-gray-50/95 backdrop-blur-sm border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Company Info */}
-            <div className="lg:col-span-2">
+            <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <img 
-                  src="/logo.png" 
-                  alt="Movico Studio" 
-                  className="h-8 w-auto"
-                />
+                <img src="/logo.png" alt="Movico Studio" className="h-8 w-auto" />
               </div>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6 max-w-md">
+              <p className="text-gray-600 text-base sm:text-lg leading-relaxed mb-6 max-w-md">
                 Pioneering the future of storytelling through AI-powered video creation. Transform your ideas into stunning visual narratives.
               </p>
               <div className="flex space-x-4">
                 <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
-                  <div className="w-5 h-5 bg-current" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+                  <div className="w-5 h-5 bg-current" style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }} />
                 </button>
                 <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
                   <div className="w-5 h-5 bg-current rounded-full" />
                 </button>
                 <button className="bg-black hover:bg-gray-800 text-white p-3 rounded-full transition-colors duration-300">
-                  <div className="w-5 h-5 bg-current" style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)' }} />
+                  <div className="w-5 h-5 bg-current" style={{ clipPath: "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)" }} />
                 </button>
               </div>
             </div>
-
-            {/* Services */}
             <div>
               <h3 className="text-black font-semibold text-lg mb-6">Services</h3>
               <ul className="space-y-4">
@@ -588,34 +605,18 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
                 <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Motion Graphics</a></li>
               </ul>
             </div>
-
-            {/* Contact */}
             <div>
               <h3 className="text-black font-semibold text-lg mb-6">Contact</h3>
               <ul className="space-y-4">
-                <li className="text-gray-600">
-                  <span className="block text-sm text-gray-500">Email</span>
-                  hello@movico.studio
-                </li>
-                <li className="text-gray-600">
-                  <span className="block text-sm text-gray-500">Phone</span>
-                  +1 (555) 123-4567
-                </li>
-                <li className="text-gray-600">
-                  <span className="block text-sm text-gray-500">Address</span>
-                  123 Creative District<br />
-                  Los Angeles, CA 90028
-                </li>
+                <li className="text-gray-600"><span className="block text-sm text-gray-500">Email</span>hello@movico.studio</li>
+                <li className="text-gray-600"><span className="block text-sm text-gray-500">Phone</span>+1 (555) 123-4567</li>
+                <li className="text-gray-600"><span className="block text-sm text-gray-500">Address</span>123 Creative District, Los Angeles, CA 90028</li>
               </ul>
             </div>
           </div>
-
-          {/* Bottom Bar */}
           <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-500 text-sm mb-4 md:mb-0">
-              © 2025 Movico Studio. All rights reserved.
-            </div>
-            <div className="flex space-x-6 text-sm">
+            <div className="text-gray-500 text-sm mb-4 md:mb-0">© 2025 Movico Studio. All rights reserved.</div>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
               <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Privacy Policy</a>
               <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Terms of Service</a>
               <a href="#" className="text-gray-500 hover:text-black transition-colors duration-300">Cookie Policy</a>
@@ -627,46 +628,46 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
   );
 };
 
-function App() {
-  const [activeItem, setActiveItem] = useState('home');
-  const [selectedVideo, setSelectedVideo] = useState<typeof videoData[0] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleVideoPlay = (video: typeof videoData[0]) => {
+function App() {
+  const [activeItem, setActiveItem] = useState("home");
+  const [selectedVideo, setSelectedVideo] = useState<
+    (typeof videoData)[0] | null
+  >(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleVideoPlay = (video: (typeof videoData)[0]) => {
     setSelectedVideo(video);
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedVideo(null);
   };
-
   const handleBackToHome = () => {
-    setActiveItem('home');
+    setActiveItem("home");
   };
-
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <Navigation activeItem={activeItem} setActiveItem={setActiveItem} />
-
       {/* Page Content */}
-      {activeItem === 'home' && <HomePage onVideoPlay={handleVideoPlay} />}
-      {activeItem === 'portfolio' && (
-        <PortfolioPage onVideoPlay={handleVideoPlay} onBack={handleBackToHome} />
+      {activeItem === "home" && <HomePage onVideoPlay={handleVideoPlay} />}
+      {activeItem === "portfolio" && (
+        <PortfolioPage
+          onVideoPlay={handleVideoPlay}
+          onBack={handleBackToHome}
+        />
       )}
-      {activeItem === 'about' && <HomePage onVideoPlay={handleVideoPlay} />}
-      {activeItem === 'contact' && <HomePage onVideoPlay={handleVideoPlay} />}
-      
+      {activeItem === "about" && <HomePage onVideoPlay={handleVideoPlay} />}
+      {activeItem === "contact" && <HomePage onVideoPlay={handleVideoPlay} />}
+
       {/* Video Modal */}
-      <VideoModal 
-        video={selectedVideo} 
-        isOpen={isModalOpen} 
-        onClose={handleCloseModal} 
+      <VideoModal
+        video={selectedVideo}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
       />
     </div>
   );
 }
-
 export default App;
