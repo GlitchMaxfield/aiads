@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
+import AnimatedStatsCard from "./AnimatedStatsCard";
 import {
   Play,
   ChevronLeft,
@@ -6,6 +7,9 @@ import {
   Film,
   X,
   ArrowLeft,
+  Sparkles,
+  Zap,
+  Award,
 } from "lucide-react";
 
 const videoData = [
@@ -82,6 +86,15 @@ const Navigation = ({
   setActiveItem: (item: string) => void;
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { id: "home", label: "Home Page" },
@@ -89,16 +102,19 @@ const Navigation = ({
     { id: "about", label: "About Us" },
     { id: "contact", label: "Contact Us" },
   ];
-
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 shadow-lg backdrop-blur-md' : 'bg-white/80 backdrop-blur-sm'} border-b border-gray-200`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="bg-black text-white px-2 py-1 text-xs font-bold rounded">
-              MOVICO.STUDIO
-            </div>
+            <img
+              src="/logo.png"
+              alt="Movico Studio"
+              className="h-8 sm:h-10 lg:h-12 w-auto transition-all duration-300 hover:scale-105"
+            />
           </div>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
@@ -106,16 +122,20 @@ const Navigation = ({
               <button
                 key={item.id}
                 onClick={() => setActiveItem(item.id)}
-                className={`relative px-3 py-2 text-sm lg:text-base font-medium transition-all duration-300 ${
+                className={`relative px-3 py-2 text-base lg:text-lg font-medium transition-all duration-300 overflow-hidden ${
                   activeItem === item.id
                     ? "text-black"
                     : "text-gray-600 hover:text-black"
                 }`}
               >
-                {item.label}
+                <span className="relative z-10">{item.label}</span>
                 {activeItem === item.id && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-black to-gray-800 rounded-full" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-black via-gray-700 to-gray-500 rounded-full" />
                 )}
+                <div 
+                  className={`absolute inset-0 bg-gray-100 rounded-lg transform scale-x-0 transition-transform duration-300 origin-left ${activeItem === item.id ? 'opacity-10' : 'opacity-0 group-hover:opacity-5'}`}
+                  style={{ transform: activeItem === item.id ? 'scaleX(1)' : 'scaleX(0)' }}
+                />
               </button>
             ))}
           </div>
@@ -153,7 +173,7 @@ const Navigation = ({
               : "max-h-0 opacity-0 overflow-hidden"
           }`}
         >
-          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm rounded-lg mt-2 border border-gray-200">
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white/95 backdrop-blur-sm rounded-lg mt-2 border border-gray-200 shadow-lg">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -176,6 +196,7 @@ const Navigation = ({
     </nav>
   );
 };
+
 
 const VideoModal = ({
   video,
@@ -510,7 +531,7 @@ const PortfolioPage = ({
 
 const HomePage = ({ onVideoPlay }) => {
   return (
-    <div className="relative h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
@@ -519,7 +540,7 @@ const HomePage = ({ onVideoPlay }) => {
       </div>
 
       {/* Hero Section */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
         {/* Main Content Container */}
         <div className="text-center space-y-6 sm:space-y-8 mb-8">
           {/* Main Heading */}
@@ -543,46 +564,34 @@ const HomePage = ({ onVideoPlay }) => {
         </div>
 
         {/* Video Carousel */}
-        <div className="w-full max-w-5xl mb-8">
+        <div className="w-full max-w-5xl mb-16">
           <VideoCarousel onVideoPlay={onVideoPlay} />
         </div>
 
-        {/* Stats Section - Positioned at bottom */}
-        <div className="relative flex justify-center items-center gap-6 sm:gap-8 lg:gap-12 px-4">
-          {[
-            { number: "50+", label: "ADS CREATED" },
-            { number: "10+", label: "HAPPY CLIENTS" },
-            { number: "100%", label: "PRODUCTIVITY" },
-          ].map((stat, index) => (
-            <React.Fragment key={index}>
-              <div className="text-center group">
-                {/* Big Number - Extra Bold */}
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-800 mb-1 group-hover:text-black transition-colors duration-300">
-                  {stat.number}
-                </div>
-                {/* Label */}
-                <div className="text-xs sm:text-sm text-gray-500 font-medium uppercase tracking-wide">
-                  {stat.label}
-                </div>
-              </div>
-
-              {/* Divider - Only between items */}
-              {index < 2 && (
-                <div className="hidden sm:block w-px h-8 lg:h-10 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
-              )}
-            </React.Fragment>
-          ))}
+        {/* Stats Section - Animated Cards with Counters */}
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 px-4 w-full max-w-4xl mx-auto">
+          <AnimatedStatsCard 
+            icon={Zap} 
+            number="50+" 
+            label="ADS CREATED" 
+            delay={0} 
+          />
+          <AnimatedStatsCard 
+            icon={Award} 
+            number="10+" 
+            label="HAPPY CLIENTS" 
+            delay={200} 
+          />
+          <AnimatedStatsCard 
+            icon={Sparkles} 
+            number="100" 
+            label="PRODUCTIVITY" 
+            delay={400} 
+          />
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse opacity-60" />
-      <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse opacity-60" style={{ animationDelay: "1s" }} />
-      <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse opacity-60" style={{ animationDelay: "2s" }} />
-      <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse opacity-60" style={{ animationDelay: "3s" }} />
-
-
-          {/* Footer */}
+      {/* Footer */}
       <footer className="relative z-10 bg-gray-50/95 backdrop-blur-sm border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -659,6 +668,33 @@ function App() {
   const handleBackToHome = () => {
     setActiveItem("home");
   };
+
+  useEffect(() => {
+    // Add global styles for animations
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes float {
+        0% { transform: translateY(0) translateX(0) rotate(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-100vh) translateX(20px) rotate(360deg); opacity: 0; }
+      }
+      @keyframes shine {
+        from { transform: translateX(-100%) rotate(0deg); }
+        to { transform: translateX(100%) rotate(5deg); }
+      }
+      @keyframes gradient-x {
+        0% { background-size: 100%; background-position: 0% 0%; }
+        50% { background-size: 200%; background-position: 100% 0%; }
+        100% { background-size: 100%; background-position: 0% 0%; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
