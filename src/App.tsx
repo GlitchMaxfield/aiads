@@ -536,22 +536,31 @@ const HomePage = ({ onVideoPlay }) => {
         </div>
         
       </div>
-      {/* Stats Section */}
-<div className="relative flex justify-center items-center gap-8 sm:gap-12 px-4 py-6">
-  <div className="text-center">
-    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">50+</div>
-    <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Ads Created</div>
-  </div>
-  <div className="hidden sm:block w-px h-12" />
-  <div className="text-center">
-    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">10+</div>
-    <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Happy Clients</div>
-  </div>
-  <div className="hidden sm:block w-px h-12" />
-  <div className="text-center">
-    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">100%</div>
-    <div className="text-xs sm:text-sm text-gray-600">Productivity</div>
-  </div>
+      {/* Stats Section - Bold, Modern & Visually Appealing */}
+<div className="relative flex justify-center items-center gap-8 sm:gap-12 px-4 py-8">
+  {[
+    { number: "50+", label: "Ads Created" },
+    { number: "10+", label: "Happy Clients" },
+    { number: "100%", label: "Productivity" },
+  ].map((stat, index) => (
+    <React.Fragment key={index}>
+      <div className="text-center group">
+        {/* Big Number - Extra Bold */}
+        <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-800 mb-1 group-hover:text-black transition-colors duration-300">
+          {stat.number}
+        </div>
+        {/* Label */}
+        <div className="text-xs sm:text-sm text-gray-500 font-medium uppercase tracking-wide">
+          {stat.label}
+        </div>
+      </div>
+
+      {/* Divider - Only between items */}
+      {index < 2 && (
+        <div className="hidden sm:block w-px h-10 bg-gradient-to-b from-transparent via-gray-300 to-transparent" />
+      )}
+    </React.Fragment>
+  ))}
 </div>
 
       {/* Floating Elements */}
