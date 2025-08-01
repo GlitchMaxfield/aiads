@@ -224,6 +224,8 @@ const VideoModal = ({
     </div>
   );
 };
+
+
 const VideoCard = ({
   video,
   index,
@@ -235,42 +237,36 @@ const VideoCard = ({
   onPlay: (video: (typeof videoData)[0]) => void;
   isGrid?: boolean;
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const handlePlayClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onPlay(video);
   };
+
   const isVertical = video.orientation === "vertical";
+
   if (isGrid) {
     return (
       <div className="relative group">
         <div
-          className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 aspect-video bg-gray-100 hover:scale-105"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+          className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 aspect-video bg-gray-100 hover:scale-105 hover:shadow-2xl"
           onClick={handlePlayClick}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
-
           {/* Thumbnail */}
           <img
             src={video.thumbnail}
             alt={video.title}
             className="w-full h-full object-cover"
           />
-          {/* Play Icon */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-              isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"
-            }`}
-          >
-            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
+          {/* Play Icon - Always Visible */}
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300 transform group-hover:scale-110">
               <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white" />
             </div>
           </div>
           {/* Title */}
           <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20">
-            <h3 className="text-white font-medium text-sm sm:text-base">
+            <h3 className="text-white font-medium text-sm sm:text-base transition-all duration-300 group-hover:text-yellow-300">
               {video.title}
             </h3>
           </div>
@@ -278,42 +274,41 @@ const VideoCard = ({
       </div>
     );
   }
+
+  // For Carousel (horizontal scroll)
   return (
     <div className="relative flex-shrink-0 h-48 sm:h-56 lg:h-64">
       <div
         className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-full ${
           isVertical ? "w-32 sm:w-36 lg:w-40" : "w-64 sm:w-72 lg:w-80"
-        } ${isHovered ? "transform scale-105 shadow-2xl shadow-black/20" : ""}`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        } hover:scale-105 hover:shadow-2xl`}
         onClick={handlePlayClick}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
-
         {/* Thumbnail */}
         <img
           src={video.thumbnail}
           alt={video.title}
           className="w-full h-full object-cover"
         />
-        {/* Play Icon */}
-        <div
-          className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-            isHovered ? "opacity-100 scale-100" : "opacity-0 scale-75"
-          }`}
-        >
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
+        {/* Play Icon - Always Visible */}
+        <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 sm:p-4 cursor-pointer hover:bg-white/30 transition-all duration-300 transform group-hover:scale-110">
             <Play className="w-6 h-6 sm:w-8 sm:h-8 text-white fill-white" />
           </div>
         </div>
         {/* Title */}
         <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20">
-          <h3 className="text-white font-medium text-sm">{video.title}</h3>
+          <h3 className="text-white font-medium text-sm transition-all duration-300 group-hover:text-yellow-300">
+            {video.title}
+          </h3>
         </div>
       </div>
     </div>
   );
 };
+
+
 const VideoCarousel = ({
   onVideoPlay,
 }: {
@@ -501,10 +496,9 @@ const PortfolioPage = ({
 
 const HomePage = ({ onVideoPlay }) => {
   return (
-    <>
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
@@ -512,59 +506,53 @@ const HomePage = ({ onVideoPlay }) => {
 
       {/* Hero Section */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-32 pb-16">
-        {/* 1. Main Heading with increased top spacing */}
-<div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-6">
-  <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6">
-    <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
-      AI-Generated Ads & Short Films
-    </span>
-  </h1>
-  <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-4 max-w-2xl">
-    Unleashing storytelling with AI creativity.
-  </p>
-</div>
+        {/* Main Heading */}
+        <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 sm:mb-6">
+            <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
+              AI-Generated Ads & Short Films
+            </span>
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg lg:text-xl leading-relaxed mb-4 max-w-2xl">
+            Unleashing storytelling with AI creativity.
+          </p>
+        </div>
 
-{/* 2. "Start Creating Now" Button */}
-<div className="mb-4 lg:mb-6 w-full flex justify-center">
-  <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
-    <span className="relative z-10">Start Creating Now</span>
-    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-    <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-  </button>
-</div>
+        {/* Start Creating Now Button */}
+        <div className="mb-4 lg:mb-6 w-full flex justify-center">
+          <button className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
+            <span className="relative z-10">Start Creating Now</span>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+            <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+          </button>
+        </div>
 
-        {/* 3. Video Carousel */}
+        {/* Video Carousel */}
         <div className="w-full max-w-6xl">
           <div className="flex justify-center mb-4 sm:mb-6">
-            <h3 className="text-black text-lg sm:text-xl font-semibold">
-              AI Masterpieces in Motion
-            </h3>
+            {/* You can add a title here if needed */}
           </div>
           <VideoCarousel onVideoPlay={onVideoPlay} />
         </div>
-
-        {/* 4. Stats Section */}
-        <div className="mt-16 lg:mt-20 w-full">
-          <div className="flex flex-col xl:flex-row items-center justify-center gap-8 lg:gap-12 xl:gap-16">
-            <div className="flex items-center gap-4 sm:gap-6 lg:gap-8">
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">50+</div>
-                <div className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">Ads Created</div>
-              </div>
-              <div className="w-px h-8 sm:h-10 bg-gray-300" />
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">10+</div>
-                <div className="text-xs sm:text-sm text-gray-500 whitespace-nowrap">Happy Clients</div>
-              </div>
-              <div className="w-px h-8 sm:h-10 bg-gray-300" />
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">100%</div>
-                <div className="text-xs sm:text-sm text-gray-500">Productivity</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
+      {/* Stats Section */}
+<div className="relative flex justify-center items-center gap-8 sm:gap-12 px-4 py-6">
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">50+</div>
+    <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Ads Created</div>
+  </div>
+  <div className="hidden sm:block w-px h-12" />
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">10+</div>
+    <div className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Happy Clients</div>
+  </div>
+  <div className="hidden sm:block w-px h-12" />
+  <div className="text-center">
+    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black mb-1">100%</div>
+    <div className="text-xs sm:text-sm text-gray-600">Productivity</div>
+  </div>
+</div>
 
       {/* Floating Elements */}
       <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse opacity-60" />
@@ -624,7 +612,7 @@ const HomePage = ({ onVideoPlay }) => {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 
