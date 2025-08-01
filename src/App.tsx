@@ -121,7 +121,6 @@ const Navigation = ({ activeItem, setActiveItem }: {
 };
 
 const VideoModal = ({ video, isOpen, onClose }: { 
-  video: typeof videoData[0] | null, 
   isOpen: boolean, 
   onClose: () => void 
 }) => {
@@ -233,20 +232,20 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
   }
 
   return (
-    <div className="relative flex-shrink-0 h-64">
+    <div className="relative flex-shrink-0">
       <div
-        className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 h-64 ${
-          isVertical ? 'w-40' : 'w-80'
+        className={`relative rounded-2xl cursor-pointer transition-all duration-500 ${
+          isVertical ? 'w-42 h-72' : 'w-92 h-72' 
         } ${
-          isHovered ? 'transform scale-105 shadow-2xl shadow-black/20' : ''
+          isHovered ? 'shadow-2xl shadow-black/20 transform scale-105' : ''
         }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10 rounded-2xl overflow-hidden" />
         
         {/* Thumbnail */}
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full rounded-2xl overflow-hidden">
           <img
             src={video.thumbnail}
             alt={video.title}
@@ -254,24 +253,26 @@ const VideoCard = ({ video, index, onPlay, isGrid = false }: {
           />
         </div>
 
-        {/* Play Icon */}
+        {/* Permanent Play Icon */}
         <div
-          className={`absolute inset-0 flex items-center justify-center z-20 transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
-          }`}
+          className="absolute inset-0 flex items-center justify-center z-20 transition-all duration-300"
           onClick={handlePlayClick}
         >
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 cursor-pointer hover:bg-white/30 transition-all duration-300">
-            <Play className="w-8 h-8 text-white fill-white" />
+          <div className={`bg-white/20 backdrop-blur-sm rounded-full cursor-pointer transition-all duration-300 ${
+            isHovered ? 'bg-white/30 p-6 scale-110' : 'bg-white/15 p-5'
+          }`}>
+            <Play className={`text-white fill-white transition-all duration-300 ${
+              isHovered ? 'w-10 h-10' : 'w-8 h-8'
+            }`} />
           </div>
         </div>
 
         {/* Title */}
         <div className="absolute bottom-4 left-4 z-20">
-          <h3 className="text-white font-medium text-sm">{video.title}</h3>
+          <h3 className="text-white font-medium text-base">{video.title}</h3>
         </div>
 
-        {/* Glow Effect */}
+        {/* Hover Ring Effect */}
         <div
           className={`absolute inset-0 rounded-2xl transition-all duration-500 ${
             isHovered ? 'ring-2 ring-black/30' : ''
@@ -296,7 +297,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
     if (!scrollContainer) return;
 
     let animationId: number;
-    const scrollSpeed = 0.8; // pixels per frame
+    const scrollSpeed = 1.2; // pixels per frame (increased for larger cards)
 
     const autoScroll = () => {
       if (!isPaused && !isHovered && scrollContainer) {
@@ -334,7 +335,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
     setIsPaused(true);
     
     if (scrollRef.current) {
-      const scrollAmount = 320; // Adjust based on card width + gap
+      const scrollAmount = 600; // Increased for larger cards
       const newScrollLeft = scrollRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
       scrollRef.current.scrollTo({
         left: newScrollLeft,
@@ -367,7 +368,7 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       {/* Video Container */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+        className="flex gap-12 overflow-x-auto pb-8 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none',
@@ -385,8 +386,8 @@ const VideoCarousel = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[
       </div>
       
       {/* Fade edges */}
-      <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 w-32 h-full bg-gradient-to-r from-white to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-32 h-full bg-gradient-to-l from-white to-transparent pointer-events-none z-10" />
     </div>
   );
 };
@@ -431,7 +432,7 @@ const PortfolioPage = ({ onVideoPlay, onBack }: {
         </div>
 
         {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"> 
           {videoData.map((video, index) => (
             <VideoCard 
               key={video.id} 
@@ -475,16 +476,13 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(0,0,0,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.05),transparent_50%)]" />
-        
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:100px_100px]" />
       </div>
-
       {/* Hero Section */}
-      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-16">  
-
+      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-6">   
         {/* Left Content */}
-        <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-12 lg:mb-0">
+        <div className="flex-1 max-w-2xl lg:pr-12 text-center lg:text-left mb-8 lg:mb-0">
           {/* Main Headline */}
           <h1 className="text-4xl lg:text-6xl xl:text-6xl font-bold leading-tight mb-6">
             <span className="bg-gradient-to-r from-black via-gray-800 to-gray-600 bg-clip-text text-transparent">
@@ -492,45 +490,16 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
             </span>
             <br />
             <span className="bg-gradient-to-r from-gray-900 via-black to-gray-800 bg-clip-text text-transparent">
-              
             </span>
             <br />
             <span className="text-black">
-             
             </span>
           </h1>
-
           {/* Tagline */}
-          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
+          <p className="text-gray-600 text-lg lg:text-xl leading-relaxed mb-10 max-w-lg mx-auto  lg:mx-0 text-center lg:text-left">
             Unleashing storytelling with AI creativity.
           </p>
-
-          {/* CTA Button */}
-          <button className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25">
-            <span className="relative z-10">Start Creating Now</span>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-            <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-          </button>
-
-          {/* Stats */}
-          <div className="flex items-center justify-center lg:justify-start gap-8 mt-12 text-sm text-gray-500">
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">50+</div>
-              <div>Advertisements Created</div>
-            </div>
-            <div className="w-px h-8 bg-gray-300" />
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">10+</div>
-              <div>Happy Clients</div>
-            </div>
-            <div className="w-px h-8 bg-gray-300" />
-            <div className="text-center lg:text-left">
-              <div className="text-5xl font-bold text-black">100%</div>
-              <div>Productivity</div>
-            </div>
-          </div>
         </div>
-
         {/* Right Content - Video Carousel */}
         <div className="flex-1 w-full lg:max-w-2xl">
           <div className="relative">
@@ -541,13 +510,37 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
           </div>
         </div>
       </div>
-
+      {/* Centered Button and Stats */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        {/* CTA Button */}
+        <button className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white transition-all duration-300 bg-gradient-to-r from-black to-gray-800 rounded-full hover:from-gray-800 hover:to-black hover:scale-105 hover:shadow-2xl hover:shadow-black/25 mb-8">
+          <span className="relative z-10">Start Creating Now</span>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-700 opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+          <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+        </button>
+        {/* Stats */}
+        <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
+          <div className="text-center">
+            <div className="text-5xl font-bold text-black">50+</div>
+            <div>Advertisements Created</div>
+          </div>
+          <div className="w-px h-8 bg-gray-300" />
+          <div className="text-center">
+            <div className="text-5xl font-bold text-black">10+</div>
+            <div>Happy Clients</div>
+          </div>
+          <div className="w-px h-8 bg-gray-300" />
+          <div className="text-center">
+            <div className="text-5xl font-bold text-black">100%</div>
+            <div>Productivity</div>
+          </div>
+        </div>
+      </div>
       {/* Floating Elements */}
       <div className="absolute top-32 left-10 w-2 h-2 bg-black rounded-full animate-pulse" />
       <div className="absolute top-52 right-20 w-1 h-1 bg-gray-600 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
       <div className="absolute bottom-40 left-20 w-1.5 h-1.5 bg-gray-800 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
       <div className="absolute bottom-20 right-40 w-1 h-1 bg-gray-700 rounded-full animate-pulse" style={{ animationDelay: '3s' }} />
-
       {/* Footer */}
       <footer className="relative z-10 bg-gray-50/95 backdrop-blur-sm border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
@@ -576,7 +569,6 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
                 </button>
               </div>
             </div>
-
             {/* Services */}
             <div>
               <h3 className="text-black font-semibold text-lg mb-6">Services</h3>
@@ -588,7 +580,6 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
                 <li><a href="#" className="text-gray-600 hover:text-black transition-colors duration-300">Motion Graphics</a></li>
               </ul>
             </div>
-
             {/* Contact */}
             <div>
               <h3 className="text-black font-semibold text-lg mb-6">Contact</h3>
@@ -609,7 +600,6 @@ const HomePage = ({ onVideoPlay }: { onVideoPlay: (video: typeof videoData[0]) =
               </ul>
             </div>
           </div>
-
           {/* Bottom Bar */}
           <div className="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-500 text-sm mb-4 md:mb-0">
